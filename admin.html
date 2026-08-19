@@ -1341,5 +1341,87 @@
 
     db.auth.getSession();
   </script>
+<style id="pravesh-admin-preview-css">
+    /* PRAVESH_ADMIN_STABLE_PREVIEW_V2 */
+    #preview { opacity: 1 !important; transform: translateZ(0); backface-visibility: hidden; }
+    </style>
+    <script>
+    (() => {
+      const STABLE_STYLE = `
+        *,*::before,*::after{
+          animation:none !important;
+          transition:none !important;
+          scroll-behavior:auto !important;
+        }
+        html{scroll-behavior:auto !important}
+      `;
+      let previewReady = false;
+      let timer = 0;
+      let lastPayload = '';
+
+      function stableFrame(){
+        const frame = document.getElementById('preview');
+        if (!frame) return;
+        try {
+          const doc = frame.contentDocument;
+          if (!doc) return;
+          let style = doc.getElementById('pravesh-admin-stable-style');
+          if (!style) {
+            style = doc.createElement('style');
+            style.id = 'pravesh-admin-stable-style';
+            (doc.head || doc.documentElement).appendChild(style);
+          }
+          style.textContent = STABLE_STYLE;
+        } catch (_) {}
+      }
+
+      function stablePost(){
+        const frame = document.getElementById('preview');
+        if (!frame || !frame.contentWindow) return;
+        try {
+          const state = typeof draft !== 'undefined' ? draft : {};
+          window.draft = state;
+          const payload = JSON.stringify(state);
+          if (previewReady && payload === lastPayload) return;
+          lastPayload = payload;
+          frame.contentWindow.postMessage({type:'PORTFOLIO_PREVIEW',settings:state}, location.origin);
+        } catch (_) {}
+        setTimeout(stableFrame, 0);
+      }
+
+      function hook(){
+        const frame = document.getElementById('preview');
+        if (!frame || frame.__praveshStableHooked) return;
+        frame.__praveshStableHooked = true;
+        frame.addEventListener('load', () => {
+          previewReady = true;
+          stableFrame();
+          setTimeout(stableFrame, 100);
+          setTimeout(stableFrame, 500);
+        });
+      }
+
+      const originalPost = window.post;
+      window.post = function(){
+        clearTimeout(timer);
+        hook();
+        timer = setTimeout(stablePost, 120);
+      };
+
+      const originalSetAttribute = Element.prototype.setAttribute;
+      Element.prototype.setAttribute = function(name, value){
+        if (this.id === 'preview' && name === 'src' && this.getAttribute('src') === value) return;
+        return originalSetAttribute.call(this, name, value);
+      };
+
+      const frame = document.getElementById('preview');
+      if (frame) {
+        hook();
+        const observer = new MutationObserver(() => hook());
+        observer.observe(frame.parentElement || document.body, {childList:true,subtree:true});
+        setTimeout(stableFrame, 300);
+      }
+    })();
+    </script>
 </body>
 </html>
