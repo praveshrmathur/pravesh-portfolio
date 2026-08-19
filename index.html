@@ -40,6 +40,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lenis 120Hz Momentum Smooth Scroll Engine -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <style>
     :root {
       --orange: #ff551f;
@@ -78,10 +80,27 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
     html {
-      scroll-behavior: smooth;
       font-size: 16px;
+    }
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-smooth iframe {
+      pointer-events: none;
     }
     body {
       width: 100%;
@@ -90,10 +109,31 @@
       background: var(--paper);
       color: var(--ink);
       font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       transition: background-color 0.3s ease, color 0.3s ease;
       touch-action: manipulation;
+    }
+
+    /* 120Hz Hardware GPU Compositing Layers */
+    .hero-letter,
+    .project-media,
+    .glass-tool,
+    .contact-card,
+    .footer-qr-card,
+    .floating-whatsapp-btn,
+    .magnetic-btn,
+    .hero-arrow,
+    .theme-toggle,
+    .tool-logo {
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    /* 120fps Scroll Containment */
+    #section-work, #section-about, #section-tools, #section-contact {
+      content-visibility: auto;
+      contain-intrinsic-size: 800px;
     }
     a {
       color: inherit;
@@ -269,46 +309,87 @@
       width: 100%;
     }
 
-    /* Glassmorphic WhatsApp Action Button */
-    .nav-whatsapp-btn {
-      display: inline-flex;
+    /* Floating 3D Glass WhatsApp Quick Action Button (Chatbot FAB Style) */
+    .floating-whatsapp-btn {
+      position: fixed;
+      bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+      right: max(20px, calc(env(safe-area-inset-right) + 16px));
+      z-index: 1100;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(37, 211, 102, 0.4);
-      background: linear-gradient(145deg, rgba(37, 211, 102, 0.16) 0%, rgba(18, 140, 126, 0.08) 100%);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #128c7e;
-      font: 10px "DM Mono", monospace;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      box-shadow: 0 2px 10px rgba(37, 211, 102, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      text-decoration: none;
-    }
-    [data-theme="dark"] .nav-whatsapp-btn {
-      color: #25d366;
-      border-color: rgba(37, 211, 102, 0.35);
-      background: linear-gradient(145deg, rgba(37, 211, 102, 0.22) 0%, rgba(18, 140, 126, 0.12) 100%);
-      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    }
-    .nav-whatsapp-btn svg {
-      width: 13px;
-      height: 13px;
-      fill: currentColor;
-      transition: transform 0.25s ease;
-    }
-    .nav-whatsapp-btn:hover {
-      transform: scale(1.05) translateY(-1px);
-      background: #25d366;
+      gap: 10px;
+      padding: 10px 18px 10px 12px;
+      border-radius: 40px;
+      background: linear-gradient(145deg, rgba(37, 211, 102, 0.95), rgba(18, 140, 126, 0.95));
       color: #fff;
-      border-color: #25d366;
-      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+      text-decoration: none;
+      box-shadow: 0 10px 28px rgba(37, 211, 102, 0.42), inset 0 2px 4px rgba(255, 255, 255, 0.5), inset 0 -3px 6px rgba(0, 0, 0, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      font: 11px "DM Mono", monospace;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      cursor: pointer;
+      user-select: none;
     }
-    .nav-whatsapp-btn:hover svg {
-      transform: rotate(10deg);
+    .floating-whatsapp-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 16px 36px rgba(37, 211, 102, 0.55), 0 0 20px rgba(37, 211, 102, 0.4);
+    }
+    .floating-whatsapp-icon-wrap {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    }
+    .floating-whatsapp-icon-wrap svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+    }
+    .floating-whatsapp-pulse {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #00ff88;
+      border: 2px solid #128c7e;
+      box-shadow: 0 0 8px #00ff88;
+      animation: pulseGreen 1.8s infinite;
+    }
+    @keyframes pulseGreen {
+      0% { transform: scale(0.9); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+      100% { transform: scale(0.9); opacity: 1; }
+    }
+    @media (max-width: 540px) {
+      .floating-whatsapp-btn {
+        padding: 0;
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        justify-content: center;
+      }
+      .floating-whatsapp-label {
+        display: none;
+      }
+      .floating-whatsapp-icon-wrap {
+        width: 36px;
+        height: 36px;
+      }
+      .floating-whatsapp-icon-wrap svg {
+        width: 20px;
+        height: 20px;
+      }
     }
 
     /* Glassmorphic Theme Switcher Button */
@@ -1445,11 +1526,12 @@
       flex-shrink: 0;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     }
-    .qr-image {
+    .qr-svg {
+      display: block;
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      display: block;
+      shape-rendering: crispEdges;
+      image-rendering: pixelated;
     }
     .qr-scan-bar {
       position: absolute;
@@ -1728,6 +1810,15 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
+      .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 28px;
+      }
+      .footer-qr-card {
+        width: 100%;
+        box-sizing: border-box;
+      }
     }
     @media (max-width: 540px) {
       .work-grid {
@@ -1776,6 +1867,19 @@
         padding: 14px;
         border-radius: 16px;
       }
+      .footer-qr-card {
+        padding: 12px 14px;
+        gap: 14px;
+      }
+      .qr-image-wrap {
+        width: 80px;
+        height: 80px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
       .tool-logo {
         width: 48px;
         height: 48px;
@@ -1821,10 +1925,6 @@
         <a href="#tools">TOOLS</a>
         <a href="#contact">CONTACT</a>
       </nav>
-      <a id="nav-whatsapp-btn" class="nav-whatsapp-btn magnetic-btn" href="https://wa.link/9bb97w" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-        <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.12c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 01-1.25-4.35c0-4.52 3.68-8.2 8.24-8.2 2.2 0 4.26.86 5.82 2.42a8.18 8.18 0 012.41 5.79c0 4.52-3.69 8.2-8.23 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.06 0 1.21.89 2.39 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.3z"/></svg>
-        <span>WHATSAPP</span>
-      </a>
       <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
         <span id="theme-icon">◐</span> <span id="theme-label">CINEMA</span>
       </button>
@@ -2120,7 +2220,7 @@
       <!-- Modern Frosted Glass WhatsApp QR Code Card -->
       <a class="footer-qr-card magnetic-btn" href="https://wa.link/9bb97w" target="_blank" rel="noopener" aria-label="Scan or Click to Chat on WhatsApp">
         <div class="qr-image-wrap">
-          <img src="whatsapp-qr.png" alt="WhatsApp QR Code - Pravesh R Mathur" class="qr-image" width="100" height="100" loading="lazy">
+          <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" class="qr-svg" width="100%" height="100%" aria-label="WhatsApp QR Code"><rect width="25" height="25" fill="#fff"/><rect x="0" y="0" width="1" height="1" fill="#000"/><rect x="1" y="0" width="1" height="1" fill="#000"/><rect x="2" y="0" width="1" height="1" fill="#000"/><rect x="3" y="0" width="1" height="1" fill="#000"/><rect x="4" y="0" width="1" height="1" fill="#000"/><rect x="5" y="0" width="1" height="1" fill="#000"/><rect x="6" y="0" width="1" height="1" fill="#000"/><rect x="9" y="0" width="1" height="1" fill="#000"/><rect x="10" y="0" width="1" height="1" fill="#000"/><rect x="11" y="0" width="1" height="1" fill="#000"/><rect x="12" y="0" width="1" height="1" fill="#000"/><rect x="16" y="0" width="1" height="1" fill="#000"/><rect x="18" y="0" width="1" height="1" fill="#000"/><rect x="19" y="0" width="1" height="1" fill="#000"/><rect x="20" y="0" width="1" height="1" fill="#000"/><rect x="21" y="0" width="1" height="1" fill="#000"/><rect x="22" y="0" width="1" height="1" fill="#000"/><rect x="23" y="0" width="1" height="1" fill="#000"/><rect x="24" y="0" width="1" height="1" fill="#000"/><rect x="0" y="1" width="1" height="1" fill="#000"/><rect x="6" y="1" width="1" height="1" fill="#000"/><rect x="10" y="1" width="1" height="1" fill="#000"/><rect x="11" y="1" width="1" height="1" fill="#000"/><rect x="12" y="1" width="1" height="1" fill="#000"/><rect x="13" y="1" width="1" height="1" fill="#000"/><rect x="15" y="1" width="1" height="1" fill="#000"/><rect x="16" y="1" width="1" height="1" fill="#000"/><rect x="18" y="1" width="1" height="1" fill="#000"/><rect x="24" y="1" width="1" height="1" fill="#000"/><rect x="0" y="2" width="1" height="1" fill="#000"/><rect x="2" y="2" width="1" height="1" fill="#000"/><rect x="3" y="2" width="1" height="1" fill="#000"/><rect x="4" y="2" width="1" height="1" fill="#000"/><rect x="6" y="2" width="1" height="1" fill="#000"/><rect x="8" y="2" width="1" height="1" fill="#000"/><rect x="9" y="2" width="1" height="1" fill="#000"/><rect x="10" y="2" width="1" height="1" fill="#000"/><rect x="11" y="2" width="1" height="1" fill="#000"/><rect x="12" y="2" width="1" height="1" fill="#000"/><rect x="15" y="2" width="1" height="1" fill="#000"/><rect x="18" y="2" width="1" height="1" fill="#000"/><rect x="20" y="2" width="1" height="1" fill="#000"/><rect x="21" y="2" width="1" height="1" fill="#000"/><rect x="22" y="2" width="1" height="1" fill="#000"/><rect x="24" y="2" width="1" height="1" fill="#000"/><rect x="0" y="3" width="1" height="1" fill="#000"/><rect x="2" y="3" width="1" height="1" fill="#000"/><rect x="3" y="3" width="1" height="1" fill="#000"/><rect x="4" y="3" width="1" height="1" fill="#000"/><rect x="6" y="3" width="1" height="1" fill="#000"/><rect x="8" y="3" width="1" height="1" fill="#000"/><rect x="10" y="3" width="1" height="1" fill="#000"/><rect x="11" y="3" width="1" height="1" fill="#000"/><rect x="13" y="3" width="1" height="1" fill="#000"/><rect x="14" y="3" width="1" height="1" fill="#000"/><rect x="16" y="3" width="1" height="1" fill="#000"/><rect x="18" y="3" width="1" height="1" fill="#000"/><rect x="20" y="3" width="1" height="1" fill="#000"/><rect x="21" y="3" width="1" height="1" fill="#000"/><rect x="22" y="3" width="1" height="1" fill="#000"/><rect x="24" y="3" width="1" height="1" fill="#000"/><rect x="0" y="4" width="1" height="1" fill="#000"/><rect x="2" y="4" width="1" height="1" fill="#000"/><rect x="3" y="4" width="1" height="1" fill="#000"/><rect x="4" y="4" width="1" height="1" fill="#000"/><rect x="6" y="4" width="1" height="1" fill="#000"/><rect x="8" y="4" width="1" height="1" fill="#000"/><rect x="9" y="4" width="1" height="1" fill="#000"/><rect x="11" y="4" width="1" height="1" fill="#000"/><rect x="12" y="4" width="1" height="1" fill="#000"/><rect x="18" y="4" width="1" height="1" fill="#000"/><rect x="20" y="4" width="1" height="1" fill="#000"/><rect x="21" y="4" width="1" height="1" fill="#000"/><rect x="22" y="4" width="1" height="1" fill="#000"/><rect x="24" y="4" width="1" height="1" fill="#000"/><rect x="0" y="5" width="1" height="1" fill="#000"/><rect x="6" y="5" width="1" height="1" fill="#000"/><rect x="8" y="5" width="1" height="1" fill="#000"/><rect x="10" y="5" width="1" height="1" fill="#000"/><rect x="11" y="5" width="1" height="1" fill="#000"/><rect x="13" y="5" width="1" height="1" fill="#000"/><rect x="15" y="5" width="1" height="1" fill="#000"/><rect x="16" y="5" width="1" height="1" fill="#000"/><rect x="18" y="5" width="1" height="1" fill="#000"/><rect x="24" y="5" width="1" height="1" fill="#000"/><rect x="0" y="6" width="1" height="1" fill="#000"/><rect x="1" y="6" width="1" height="1" fill="#000"/><rect x="2" y="6" width="1" height="1" fill="#000"/><rect x="3" y="6" width="1" height="1" fill="#000"/><rect x="4" y="6" width="1" height="1" fill="#000"/><rect x="5" y="6" width="1" height="1" fill="#000"/><rect x="6" y="6" width="1" height="1" fill="#000"/><rect x="8" y="6" width="1" height="1" fill="#000"/><rect x="10" y="6" width="1" height="1" fill="#000"/><rect x="12" y="6" width="1" height="1" fill="#000"/><rect x="14" y="6" width="1" height="1" fill="#000"/><rect x="16" y="6" width="1" height="1" fill="#000"/><rect x="18" y="6" width="1" height="1" fill="#000"/><rect x="19" y="6" width="1" height="1" fill="#000"/><rect x="20" y="6" width="1" height="1" fill="#000"/><rect x="21" y="6" width="1" height="1" fill="#000"/><rect x="22" y="6" width="1" height="1" fill="#000"/><rect x="23" y="6" width="1" height="1" fill="#000"/><rect x="24" y="6" width="1" height="1" fill="#000"/><rect x="8" y="7" width="1" height="1" fill="#000"/><rect x="10" y="7" width="1" height="1" fill="#000"/><rect x="12" y="7" width="1" height="1" fill="#000"/><rect x="16" y="7" width="1" height="1" fill="#000"/><rect x="0" y="8" width="1" height="1" fill="#000"/><rect x="2" y="8" width="1" height="1" fill="#000"/><rect x="3" y="8" width="1" height="1" fill="#000"/><rect x="4" y="8" width="1" height="1" fill="#000"/><rect x="5" y="8" width="1" height="1" fill="#000"/><rect x="6" y="8" width="1" height="1" fill="#000"/><rect x="11" y="8" width="1" height="1" fill="#000"/><rect x="13" y="8" width="1" height="1" fill="#000"/><rect x="18" y="8" width="1" height="1" fill="#000"/><rect x="19" y="8" width="1" height="1" fill="#000"/><rect x="20" y="8" width="1" height="1" fill="#000"/><rect x="21" y="8" width="1" height="1" fill="#000"/><rect x="22" y="8" width="1" height="1" fill="#000"/><rect x="1" y="9" width="1" height="1" fill="#000"/><rect x="2" y="9" width="1" height="1" fill="#000"/><rect x="4" y="9" width="1" height="1" fill="#000"/><rect x="11" y="9" width="1" height="1" fill="#000"/><rect x="13" y="9" width="1" height="1" fill="#000"/><rect x="14" y="9" width="1" height="1" fill="#000"/><rect x="19" y="9" width="1" height="1" fill="#000"/><rect x="23" y="9" width="1" height="1" fill="#000"/><rect x="0" y="10" width="1" height="1" fill="#000"/><rect x="2" y="10" width="1" height="1" fill="#000"/><rect x="5" y="10" width="1" height="1" fill="#000"/><rect x="6" y="10" width="1" height="1" fill="#000"/><rect x="9" y="10" width="1" height="1" fill="#000"/><rect x="11" y="10" width="1" height="1" fill="#000"/><rect x="15" y="10" width="1" height="1" fill="#000"/><rect x="16" y="10" width="1" height="1" fill="#000"/><rect x="18" y="10" width="1" height="1" fill="#000"/><rect x="19" y="10" width="1" height="1" fill="#000"/><rect x="20" y="10" width="1" height="1" fill="#000"/><rect x="21" y="10" width="1" height="1" fill="#000"/><rect x="23" y="10" width="1" height="1" fill="#000"/><rect x="24" y="10" width="1" height="1" fill="#000"/><rect x="1" y="11" width="1" height="1" fill="#000"/><rect x="3" y="11" width="1" height="1" fill="#000"/><rect x="7" y="11" width="1" height="1" fill="#000"/><rect x="8" y="11" width="1" height="1" fill="#000"/><rect x="10" y="11" width="1" height="1" fill="#000"/><rect x="12" y="11" width="1" height="1" fill="#000"/><rect x="14" y="11" width="1" height="1" fill="#000"/><rect x="17" y="11" width="1" height="1" fill="#000"/><rect x="18" y="11" width="1" height="1" fill="#000"/><rect x="19" y="11" width="1" height="1" fill="#000"/><rect x="24" y="11" width="1" height="1" fill="#000"/><rect x="2" y="12" width="1" height="1" fill="#000"/><rect x="3" y="12" width="1" height="1" fill="#000"/><rect x="5" y="12" width="1" height="1" fill="#000"/><rect x="6" y="12" width="1" height="1" fill="#000"/><rect x="9" y="12" width="1" height="1" fill="#000"/><rect x="10" y="12" width="1" height="1" fill="#000"/><rect x="13" y="12" width="1" height="1" fill="#000"/><rect x="18" y="12" width="1" height="1" fill="#000"/><rect x="19" y="12" width="1" height="1" fill="#000"/><rect x="20" y="12" width="1" height="1" fill="#000"/><rect x="22" y="12" width="1" height="1" fill="#000"/><rect x="23" y="12" width="1" height="1" fill="#000"/><rect x="24" y="12" width="1" height="1" fill="#000"/><rect x="0" y="13" width="1" height="1" fill="#000"/><rect x="8" y="13" width="1" height="1" fill="#000"/><rect x="10" y="13" width="1" height="1" fill="#000"/><rect x="12" y="13" width="1" height="1" fill="#000"/><rect x="14" y="13" width="1" height="1" fill="#000"/><rect x="16" y="13" width="1" height="1" fill="#000"/><rect x="19" y="13" width="1" height="1" fill="#000"/><rect x="21" y="13" width="1" height="1" fill="#000"/><rect x="23" y="13" width="1" height="1" fill="#000"/><rect x="0" y="14" width="1" height="1" fill="#000"/><rect x="3" y="14" width="1" height="1" fill="#000"/><rect x="5" y="14" width="1" height="1" fill="#000"/><rect x="6" y="14" width="1" height="1" fill="#000"/><rect x="13" y="14" width="1" height="1" fill="#000"/><rect x="14" y="14" width="1" height="1" fill="#000"/><rect x="15" y="14" width="1" height="1" fill="#000"/><rect x="17" y="14" width="1" height="1" fill="#000"/><rect x="19" y="14" width="1" height="1" fill="#000"/><rect x="20" y="14" width="1" height="1" fill="#000"/><rect x="21" y="14" width="1" height="1" fill="#000"/><rect x="23" y="14" width="1" height="1" fill="#000"/><rect x="24" y="14" width="1" height="1" fill="#000"/><rect x="0" y="15" width="1" height="1" fill="#000"/><rect x="3" y="15" width="1" height="1" fill="#000"/><rect x="4" y="15" width="1" height="1" fill="#000"/><rect x="12" y="15" width="1" height="1" fill="#000"/><rect x="14" y="15" width="1" height="1" fill="#000"/><rect x="16" y="15" width="1" height="1" fill="#000"/><rect x="19" y="15" width="1" height="1" fill="#000"/><rect x="20" y="15" width="1" height="1" fill="#000"/><rect x="24" y="15" width="1" height="1" fill="#000"/><rect x="0" y="16" width="1" height="1" fill="#000"/><rect x="2" y="16" width="1" height="1" fill="#000"/><rect x="3" y="16" width="1" height="1" fill="#000"/><rect x="4" y="16" width="1" height="1" fill="#000"/><rect x="6" y="16" width="1" height="1" fill="#000"/><rect x="7" y="16" width="1" height="1" fill="#000"/><rect x="8" y="16" width="1" height="1" fill="#000"/><rect x="9" y="16" width="1" height="1" fill="#000"/><rect x="10" y="16" width="1" height="1" fill="#000"/><rect x="12" y="16" width="1" height="1" fill="#000"/><rect x="13" y="16" width="1" height="1" fill="#000"/><rect x="14" y="16" width="1" height="1" fill="#000"/><rect x="16" y="16" width="1" height="1" fill="#000"/><rect x="17" y="16" width="1" height="1" fill="#000"/><rect x="18" y="16" width="1" height="1" fill="#000"/><rect x="19" y="16" width="1" height="1" fill="#000"/><rect x="20" y="16" width="1" height="1" fill="#000"/><rect x="22" y="16" width="1" height="1" fill="#000"/><rect x="8" y="17" width="1" height="1" fill="#000"/><rect x="9" y="17" width="1" height="1" fill="#000"/><rect x="14" y="17" width="1" height="1" fill="#000"/><rect x="15" y="17" width="1" height="1" fill="#000"/><rect x="16" y="17" width="1" height="1" fill="#000"/><rect x="20" y="17" width="1" height="1" fill="#000"/><rect x="21" y="17" width="1" height="1" fill="#000"/><rect x="0" y="18" width="1" height="1" fill="#000"/><rect x="1" y="18" width="1" height="1" fill="#000"/><rect x="2" y="18" width="1" height="1" fill="#000"/><rect x="3" y="18" width="1" height="1" fill="#000"/><rect x="4" y="18" width="1" height="1" fill="#000"/><rect x="5" y="18" width="1" height="1" fill="#000"/><rect x="6" y="18" width="1" height="1" fill="#000"/><rect x="9" y="18" width="1" height="1" fill="#000"/><rect x="10" y="18" width="1" height="1" fill="#000"/><rect x="11" y="18" width="1" height="1" fill="#000"/><rect x="12" y="18" width="1" height="1" fill="#000"/><rect x="13" y="18" width="1" height="1" fill="#000"/><rect x="14" y="18" width="1" height="1" fill="#000"/><rect x="16" y="18" width="1" height="1" fill="#000"/><rect x="18" y="18" width="1" height="1" fill="#000"/><rect x="20" y="18" width="1" height="1" fill="#000"/><rect x="22" y="18" width="1" height="1" fill="#000"/><rect x="23" y="18" width="1" height="1" fill="#000"/><rect x="24" y="18" width="1" height="1" fill="#000"/><rect x="0" y="19" width="1" height="1" fill="#000"/><rect x="6" y="19" width="1" height="1" fill="#000"/><rect x="8" y="19" width="1" height="1" fill="#000"/><rect x="9" y="19" width="1" height="1" fill="#000"/><rect x="11" y="19" width="1" height="1" fill="#000"/><rect x="14" y="19" width="1" height="1" fill="#000"/><rect x="16" y="19" width="1" height="1" fill="#000"/><rect x="20" y="19" width="1" height="1" fill="#000"/><rect x="21" y="19" width="1" height="1" fill="#000"/><rect x="0" y="20" width="1" height="1" fill="#000"/><rect x="2" y="20" width="1" height="1" fill="#000"/><rect x="3" y="20" width="1" height="1" fill="#000"/><rect x="4" y="20" width="1" height="1" fill="#000"/><rect x="6" y="20" width="1" height="1" fill="#000"/><rect x="8" y="20" width="1" height="1" fill="#000"/><rect x="9" y="20" width="1" height="1" fill="#000"/><rect x="11" y="20" width="1" height="1" fill="#000"/><rect x="15" y="20" width="1" height="1" fill="#000"/><rect x="16" y="20" width="1" height="1" fill="#000"/><rect x="17" y="20" width="1" height="1" fill="#000"/><rect x="18" y="20" width="1" height="1" fill="#000"/><rect x="19" y="20" width="1" height="1" fill="#000"/><rect x="20" y="20" width="1" height="1" fill="#000"/><rect x="22" y="20" width="1" height="1" fill="#000"/><rect x="23" y="20" width="1" height="1" fill="#000"/><rect x="24" y="20" width="1" height="1" fill="#000"/><rect x="0" y="21" width="1" height="1" fill="#000"/><rect x="2" y="21" width="1" height="1" fill="#000"/><rect x="3" y="21" width="1" height="1" fill="#000"/><rect x="4" y="21" width="1" height="1" fill="#000"/><rect x="6" y="21" width="1" height="1" fill="#000"/><rect x="8" y="21" width="1" height="1" fill="#000"/><rect x="10" y="21" width="1" height="1" fill="#000"/><rect x="12" y="21" width="1" height="1" fill="#000"/><rect x="13" y="21" width="1" height="1" fill="#000"/><rect x="17" y="21" width="1" height="1" fill="#000"/><rect x="18" y="21" width="1" height="1" fill="#000"/><rect x="20" y="21" width="1" height="1" fill="#000"/><rect x="21" y="21" width="1" height="1" fill="#000"/><rect x="22" y="21" width="1" height="1" fill="#000"/><rect x="23" y="21" width="1" height="1" fill="#000"/><rect x="24" y="21" width="1" height="1" fill="#000"/><rect x="0" y="22" width="1" height="1" fill="#000"/><rect x="2" y="22" width="1" height="1" fill="#000"/><rect x="3" y="22" width="1" height="1" fill="#000"/><rect x="4" y="22" width="1" height="1" fill="#000"/><rect x="6" y="22" width="1" height="1" fill="#000"/><rect x="8" y="22" width="1" height="1" fill="#000"/><rect x="10" y="22" width="1" height="1" fill="#000"/><rect x="13" y="22" width="1" height="1" fill="#000"/><rect x="14" y="22" width="1" height="1" fill="#000"/><rect x="15" y="22" width="1" height="1" fill="#000"/><rect x="16" y="22" width="1" height="1" fill="#000"/><rect x="21" y="22" width="1" height="1" fill="#000"/><rect x="22" y="22" width="1" height="1" fill="#000"/><rect x="24" y="22" width="1" height="1" fill="#000"/><rect x="0" y="23" width="1" height="1" fill="#000"/><rect x="6" y="23" width="1" height="1" fill="#000"/><rect x="10" y="23" width="1" height="1" fill="#000"/><rect x="12" y="23" width="1" height="1" fill="#000"/><rect x="13" y="23" width="1" height="1" fill="#000"/><rect x="15" y="23" width="1" height="1" fill="#000"/><rect x="16" y="23" width="1" height="1" fill="#000"/><rect x="17" y="23" width="1" height="1" fill="#000"/><rect x="19" y="23" width="1" height="1" fill="#000"/><rect x="20" y="23" width="1" height="1" fill="#000"/><rect x="21" y="23" width="1" height="1" fill="#000"/><rect x="24" y="23" width="1" height="1" fill="#000"/><rect x="0" y="24" width="1" height="1" fill="#000"/><rect x="1" y="24" width="1" height="1" fill="#000"/><rect x="2" y="24" width="1" height="1" fill="#000"/><rect x="3" y="24" width="1" height="1" fill="#000"/><rect x="4" y="24" width="1" height="1" fill="#000"/><rect x="5" y="24" width="1" height="1" fill="#000"/><rect x="6" y="24" width="1" height="1" fill="#000"/><rect x="8" y="24" width="1" height="1" fill="#000"/><rect x="9" y="24" width="1" height="1" fill="#000"/><rect x="12" y="24" width="1" height="1" fill="#000"/><rect x="14" y="24" width="1" height="1" fill="#000"/><rect x="18" y="24" width="1" height="1" fill="#000"/><rect x="19" y="24" width="1" height="1" fill="#000"/><rect x="20" y="24" width="1" height="1" fill="#000"/><rect x="21" y="24" width="1" height="1" fill="#000"/><rect x="22" y="24" width="1" height="1" fill="#000"/><rect x="23" y="24" width="1" height="1" fill="#000"/><rect x="24" y="24" width="1" height="1" fill="#000"/></svg>
           <div class="qr-scan-bar"></div>
         </div>
         <div class="qr-info">
@@ -2139,6 +2239,15 @@
       <span>DESIGNED FOR VIDEO & MOTION PERFORMANCE</span>
     </div>
   </footer>
+
+  <!-- Floating 3D Glass WhatsApp Chat Button (Chatbot Style) -->
+  <a id="floating-whatsapp-btn" class="floating-whatsapp-btn magnetic-btn" href="https://wa.link/9bb97w" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <div class="floating-whatsapp-icon-wrap">
+      <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.12c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 01-1.25-4.35c0-4.52 3.68-8.2 8.24-8.2 2.2 0 4.26.86 5.82 2.42a8.18 8.18 0 012.41 5.79c0 4.52-3.69 8.2-8.23 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.06 0 1.21.89 2.39 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.3z"/></svg>
+      <span class="floating-whatsapp-pulse"></span>
+    </div>
+    <span class="floating-whatsapp-label">CHAT ON WHATSAPP</span>
+  </a>
 
   <!-- In-Page Video Modal / Lightbox -->
   <div id="video-modal" class="video-modal" aria-hidden="true" role="dialog">
@@ -2161,6 +2270,51 @@
   let currentFilter = 'all';
   let currentContactEmail = 'praveshrmathur@gmail.com';
   let activePreviewVideoEl = null;
+  let lenisInstance = null;
+
+  // 120Hz Momentum Inertia Smooth Scroll (Lenis Engine)
+  (function initSmoothScroll() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    try {
+      if (typeof Lenis !== 'undefined') {
+        lenisInstance = new Lenis({
+          duration: 1.15,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          gestureOrientation: 'vertical',
+          smoothWheel: true,
+          wheelMultiplier: 0.95,
+          touchMultiplier: 1.15,
+          infinite: false
+        });
+
+        function raf(time) {
+          lenisInstance.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Smooth in-page anchor scrolling with exact header offset
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#' || href === '#top') {
+              e.preventDefault();
+              lenisInstance.scrollTo(0, { duration: 1.2 });
+            } else if (href.startsWith('#') && href.length > 1) {
+              const target = document.querySelector(href);
+              if (target) {
+                e.preventDefault();
+                lenisInstance.scrollTo(target, { offset: -50, duration: 1.2 });
+              }
+            }
+          });
+        });
+      }
+    } catch(e) {
+      console.log('Smooth scroll fallback:', e);
+    }
+  })();
 
   // 0. Hero Signature "PORTFOLIO" Typography Motion System (Two-Line Poster Composition Transformation)
   let heroLettersArr = [];
@@ -2288,7 +2442,7 @@
     }, entranceDelay);
   }
 
-  // 0.1 Dense Kinetic Movie Wave & Timeline Stream System (20 Layered Flowing Tracks)
+  // 0.1 Dense Kinetic Movie Wave & Timeline Stream System (120Hz Time-Delta Synchronized)
   (function initHeroStreamCanvas() {
     const canvas = document.getElementById('hero-stream-canvas');
     if (!canvas) return;
@@ -2297,6 +2451,7 @@
 
     let width = 0, height = 0;
     let step = 0;
+    let lastStreamTime = performance.now();
 
     function resize() {
       const parent = canvas.parentElement;
@@ -2324,9 +2479,34 @@
       { yRatio: 0.88, speed: -0.008, freq: 0.0030, amp: 18, color: 'rgba(255, 85, 31, 0.07)', lineWidth: 1.0, dash: [] }
     ];
 
-    function draw() {
+    let isCanvasVisible = true;
+    let canvasAnimId = null;
+
+    // IntersectionObserver to pause rendering when hero is off-screen (saves GPU/battery)
+    const heroSec = document.getElementById('section-hero');
+    if (heroSec && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isCanvasVisible = entry.isIntersecting;
+          if (isCanvasVisible && !canvasAnimId) {
+            lastStreamTime = performance.now();
+            canvasAnimId = requestAnimationFrame(draw);
+          }
+        });
+      }, { threshold: 0.05 });
+      observer.observe(heroSec);
+    }
+
+    function draw(now) {
+      if (!isCanvasVisible) {
+        canvasAnimId = null;
+        return;
+      }
+      const dt = Math.min((now - lastStreamTime) / 16.666, 2.5) || 1;
+      lastStreamTime = now;
+
       ctx.clearRect(0, 0, width, height);
-      step += 1;
+      step += dt * 0.95;
 
       streamTracks.forEach((line, i) => {
         ctx.beginPath();
@@ -2365,12 +2545,12 @@
         }
       });
 
-      requestAnimationFrame(draw);
+      canvasAnimId = requestAnimationFrame(draw);
     }
-    requestAnimationFrame(draw);
+    canvasAnimId = requestAnimationFrame(draw);
   })();
 
-  // 1. Universal Pointer & Mobile Touch Particle / Ripple System
+  // 1. Universal Pointer & Mobile Touch Particle / Ripple System (120Hz Delta-Time LERP Physics)
   (function initUniversalPointerAndTouch() {
     const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
@@ -2382,13 +2562,14 @@
     let ringY = targetY;
     let isTouch = false;
     let isPointerActive = false;
+    let lastRingTime = performance.now();
 
     // Desktop Mouse Tracking
     window.addEventListener('mousemove', (e) => {
       isTouch = false;
       targetX = e.clientX;
       targetY = e.clientY;
-      dot.style.transform = `translate(${targetX}px, ${targetY}px) translate(-50%, -50%)`;
+      dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
       if (!isPointerActive) {
         isPointerActive = true;
         dot.classList.add('active-pointer');
@@ -2405,7 +2586,7 @@
         ringX = targetX;
         ringY = targetY;
         ring.classList.add('active-pointer', 'touch-active');
-        ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        ring.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0) translate(-50%, -50%)`;
 
         // Create interactive touch ripple on tap targets
         const target = e.target.closest('.project-media, .glass-tool, .filter-btn, .magnetic-btn, .theme-toggle, .hero-arrow');
@@ -2430,12 +2611,15 @@
       }, 250);
     }, { passive: true });
 
-    // Smooth Spring Render Loop for Pointer Ring
-    function renderRing() {
-      const ease = isTouch ? 0.32 : 0.18;
-      ringX += (targetX - ringX) * ease;
-      ringY += (targetY - ringY) * ease;
-      ring.style.transform = `translate(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px) translate(-50%, -50%)`;
+    // 120Hz Delta-Time Spring Physics for Sub-Pixel Precision
+    function renderRing(now) {
+      const dt = Math.min((now - lastRingTime) / 1000, 0.08) || 0.016;
+      lastRingTime = now;
+      const decay = isTouch ? 28 : 22;
+      const factor = 1 - Math.exp(-decay * dt);
+      ringX += (targetX - ringX) * factor;
+      ringY += (targetY - ringY) * factor;
+      ring.style.transform = `translate3d(${ringX.toFixed(2)}px, ${ringY.toFixed(2)}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(renderRing);
     }
     requestAnimationFrame(renderRing);
@@ -2457,7 +2641,7 @@
     document.addEventListener('mouseover', (e) => {
       if (isTouch) return;
       const target = e.target;
-      if (target.closest('a, button, .theme-toggle, .filter-btn, .contact-link-item')) {
+      if (target.closest('a, button, .theme-toggle, .filter-btn, .contact-link-item, .contact-card, .footer-qr-card')) {
         ring.classList.add('hovering-link');
       }
       if (target.closest('.project-media')) {
@@ -2473,7 +2657,7 @@
     document.addEventListener('mouseout', (e) => {
       if (isTouch) return;
       const target = e.target;
-      if (target.closest('a, button, .theme-toggle, .filter-btn, .contact-link-item')) {
+      if (target.closest('a, button, .theme-toggle, .filter-btn, .contact-link-item, .contact-card, .footer-qr-card')) {
         ring.classList.remove('hovering-link');
       }
       if (target.closest('.project-media, #showreel-feature')) {
@@ -2528,34 +2712,43 @@
 
     // Observe and attach tilt dynamically
     function refreshTiltTargets() {
-      document.querySelectorAll('.project-media, .glass-tool, #showreel-feature').forEach(attachTilt);
+      document.querySelectorAll('.project-media, .glass-tool, #showreel-feature, .contact-card, .footer-qr-card').forEach(attachTilt);
     }
     refreshTiltTargets();
     window.addEventListener('load', refreshTiltTargets);
 
-    // Mobile Dynamic Scroll Tilt (Gives cards a tactile 3D perspective during scroll)
+    // Dynamic Inertia Tilt during scroll
     let lastScrollY = window.scrollY || 0;
-    let scrollVelocity = 0;
     let isTicking = false;
 
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY || 0;
-      scrollVelocity = Math.max(-10, Math.min(10, (currentScrollY - lastScrollY) * 0.35));
-      lastScrollY = currentScrollY;
+    function applyScrollTilt(currentScrollY, velocity) {
+      const tilt = (Math.max(-10, Math.min(10, velocity * 0.45))).toFixed(1);
+      document.querySelectorAll('.project-media, .glass-tool').forEach(card => {
+        if (!card.matches(':hover') && !card.dataset.touching) {
+          card.style.transform = `perspective(800px) rotateX(${tilt}deg)`;
+        }
+      });
+    }
 
-      if (!isTicking) {
-        isTicking = true;
-        requestAnimationFrame(() => {
-          document.querySelectorAll('.project-media, .glass-tool').forEach(card => {
-            if (!card.matches(':hover') && !card.dataset.touching) {
-              const tilt = (scrollVelocity * 0.45).toFixed(1);
-              card.style.transform = `perspective(800px) rotateX(${tilt}deg)`;
-            }
+    if (lenisInstance) {
+      lenisInstance.on('scroll', (e) => {
+        applyScrollTilt(e.scroll, e.velocity * 0.6);
+      });
+    } else {
+      window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY || 0;
+        const scrollVelocity = (currentScrollY - lastScrollY) * 0.35;
+        lastScrollY = currentScrollY;
+
+        if (!isTicking) {
+          isTicking = true;
+          requestAnimationFrame(() => {
+            applyScrollTilt(currentScrollY, scrollVelocity);
+            isTicking = false;
           });
-          isTicking = false;
-        });
-      }
-    }, { passive: true });
+        }
+      }, { passive: true });
+    }
   })();
 
   // 3. Subtle Magnetic Movement on Major CTAs
@@ -2570,7 +2763,7 @@
         const centerY = rect.top + rect.height / 2;
         const deltaX = (e.clientX - centerX) * 0.18;
         const deltaY = (e.clientY - centerY) * 0.18;
-        el.style.transform = `translate(${Math.max(-10, Math.min(10, deltaX))}px, ${Math.max(-10, Math.min(10, deltaY))}px)`;
+        el.style.transform = `translate3d(${Math.max(-10, Math.min(10, deltaX))}px, ${Math.max(-10, Math.min(10, deltaY))}px, 0)`;
       });
 
       el.addEventListener('mouseleave', () => {
@@ -2579,26 +2772,37 @@
     });
   })();
 
-  // 4. Scroll Progress & Watermark Parallax
+  // 4. Scroll Progress & Watermark Parallax (Synchronized with 120Hz Lenis Engine)
   (function initScrollEffects() {
     const progressBar = document.getElementById('scroll-progress');
     const watermarks = document.querySelectorAll('.bg-watermark');
 
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    function updateScroll(scrollTop, docHeight) {
       const scrollPct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       if (progressBar) progressBar.style.width = `${scrollPct}%`;
 
-      // Subtle watermark parallax (max 15px)
+      // Subtle watermark parallax
       watermarks.forEach(wm => {
         const rect = wm.parentElement.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
           const shift = (rect.top / window.innerHeight) * 15;
-          wm.style.transform = `translateY(${shift.toFixed(1)}px)`;
+          wm.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0)`;
         }
       });
-    }, { passive: true });
+    }
+
+    if (lenisInstance) {
+      lenisInstance.on('scroll', (e) => {
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        updateScroll(e.scroll, docHeight);
+      });
+    } else {
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        updateScroll(scrollTop, docHeight);
+      }, { passive: true });
+    }
   })();
 
   // 5. IntersectionObserver Scroll Reveal
@@ -2932,8 +3136,8 @@
     if (s.whatsapp_url !== undefined || s.whatsapp_number !== undefined) {
       const waLink = s.whatsapp_url || (s.whatsapp_number ? `https://wa.me/${s.whatsapp_number.replace(/\D/g,'')}` : '');
       if (waLink) {
-        const navWa = document.getElementById('nav-whatsapp-btn');
-        if (navWa) navWa.href = waLink;
+        const floatWa = document.getElementById('floating-whatsapp-btn');
+        if (floatWa) floatWa.href = waLink;
         const contactWa = document.getElementById('contact-whatsapp');
         if (contactWa) contactWa.href = waLink;
         const contactWaText = document.getElementById('contact-whatsapp-text');
