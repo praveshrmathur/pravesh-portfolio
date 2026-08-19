@@ -2,15 +2,41 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Pravesh R Mathur — Video Editor & Media Production Specialist Portfolio (Motion V2)">
-  <meta name="keywords" content="Video Editor, Motion Graphics, Premiere Pro, After Effects, Short Form, Reels, CLAT, Education, D2C, Commercials">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Pravesh R Mathur — Video Editor & Media Production Specialist. Visual storytelling, dynamic motion design, and high-impact digital video production for brands and creators.">
+  <meta name="keywords" content="Video Editor, Motion Graphics, Premiere Pro, After Effects, Short Form, Reels, CLAT, Education, D2C, Commercials, Video Production, AI Video">
   <meta name="author" content="Pravesh R Mathur">
-  <meta property="og:title" content="Pravesh R Mathur — Video Editor Portfolio">
-  <meta property="og:description" content="Visual storytelling, motion design, and high-impact digital video production.">
+  <meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)">
+  
+  <!-- Open Graph & Social Sharing Metadata -->
+  <meta property="og:site_name" content="Pravesh R Mathur Portfolio">
+  <meta property="og:title" content="Pravesh R Mathur — Video Editor & Motion Specialist">
+  <meta property="og:description" content="High-impact visual storytelling, motion design, commercials, and short-form reels.">
   <meta property="og:type" content="website">
+  <meta property="og:image" content="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pravesh R Mathur — Video Editor Portfolio">
+  <meta name="twitter:description" content="Visual storytelling, motion design, and high-impact digital video production.">
+  
+  <!-- Google Search Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Pravesh R Mathur",
+    "jobTitle": "Video Editor & Media Production Specialist",
+    "description": "Professional video editor specializing in commercial post-production, educational media, motion design, and high-retention short-form reels.",
+    "knowsAbout": ["Video Editing", "Adobe Premiere Pro", "Adobe After Effects", "Motion Graphics", "Color Grading", "Social Media Reels", "AI Video Production"],
+    "sameAs": [
+      "https://instagram.com",
+      "https://linkedin.com"
+    ]
+  }
+  </script>
+
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23ff551f'/><text x='50%' y='68%' font-family='sans-serif' font-weight='900' font-size='58' fill='%23ffffff' text-anchor='middle'>P.</text></svg>">
-  <title>Pravesh R Mathur — Portfolio (Motion V2)</title>
+  <title>Pravesh R Mathur — Video Editor & Motion Specialist Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -51,6 +77,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
     html {
       scroll-behavior: smooth;
@@ -66,6 +93,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       transition: background-color 0.3s ease, color 0.3s ease;
+      touch-action: manipulation;
     }
     a {
       color: inherit;
@@ -90,79 +118,7 @@
       pointer-events: none;
     }
 
-    /* Cinematic Page Entrance Overlay */
-    .cinematic-entrance {
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: #0e0e0e;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      pointer-events: none;
-      cursor: pointer;
-      animation: autoDismissCurtain 1.05s cubic-bezier(0.77, 0, 0.175, 1) 0.65s forwards;
-    }
-    @keyframes autoDismissCurtain {
-      0% {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-        opacity: 1;
-        visibility: visible;
-      }
-      80% {
-        opacity: 0.9;
-      }
-      100% {
-        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        opacity: 0;
-        visibility: hidden;
-        display: none;
-      }
-    }
-    .cinematic-entrance.dismissed {
-      display: none !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-    }
-    .entrance-brand {
-      font-size: clamp(32px, 6vw, 64px);
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      opacity: 0;
-      transform: translateY(12px);
-      animation: entranceText 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-    }
-    .entrance-brand span {
-      color: var(--orange);
-    }
-    .entrance-sub {
-      font: clamp(10px, 1.2vw, 13px) "DM Mono", monospace;
-      letter-spacing: 0.12em;
-      color: #888;
-      margin-top: 8px;
-      opacity: 0;
-      transform: translateY(8px);
-      animation: entranceText 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
-    }
-    .entrance-line {
-      width: 0px;
-      height: 2px;
-      background: var(--orange);
-      margin-top: 20px;
-      animation: entranceLine 0.6s cubic-bezier(0.77, 0, 0.175, 1) 0.35s forwards;
-    }
-    @keyframes entranceText {
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes entranceLine {
-      to { width: clamp(80px, 15vw, 180px); }
-    }
-
-    /* Custom Minimalist Cursor (Desktop Only) */
+    /* Universal Responsive Pointer & Touch Indicator (Desktop Mouse + Mobile Touch) */
     .custom-cursor-dot, .custom-cursor-ring {
       position: fixed;
       top: 0;
@@ -170,14 +126,10 @@
       border-radius: 50%;
       pointer-events: none;
       z-index: 1500;
-      transition: opacity 0.25s ease, transform 0.15s ease-out;
       transform: translate(-50%, -50%);
-      display: none;
-    }
-    @media (hover: hover) and (pointer: fine) {
-      .custom-cursor-dot, .custom-cursor-ring {
-        display: block;
-      }
+      opacity: 0;
+      transition: opacity 0.25s ease, width 0.22s cubic-bezier(0.16, 1, 0.3, 1), height 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+      will-change: transform, opacity, width, height;
     }
     .custom-cursor-dot {
       width: 6px;
@@ -185,19 +137,60 @@
       background: var(--orange);
     }
     .custom-cursor-ring {
-      width: 32px;
-      height: 32px;
-      border: 1px solid rgba(255, 85, 31, 0.45);
-      background: rgba(255, 85, 31, 0.04);
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid rgba(255, 85, 31, 0.6);
+      background: rgba(255, 85, 31, 0.06);
       display: grid;
       place-items: center;
       font: 9px "DM Mono", monospace;
       color: #fff;
       letter-spacing: 0.05em;
       font-weight: 700;
-      transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), height 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease;
+      box-shadow: 0 0 16px rgba(255, 85, 31, 0.2);
+    }
+    .custom-cursor-ring.active-pointer, .custom-cursor-dot.active-pointer {
+      opacity: 1;
+    }
+    .custom-cursor-ring.touch-active {
+      opacity: 0.95;
+      width: 48px;
+      height: 48px;
+      border-color: var(--orange);
+      background: rgba(255, 85, 31, 0.15);
+      box-shadow: 0 0 24px rgba(255, 85, 31, 0.4);
     }
     .custom-cursor-ring.hovering-link {
+      width: 46px;
+      height: 46px;
+      border-color: var(--orange);
+      background: rgba(255, 85, 31, 0.14);
+    }
+    .custom-cursor-ring.hovering-project {
+      width: 60px;
+      height: 60px;
+      border-color: var(--orange);
+      background: var(--orange);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(255, 85, 31, 0.45);
+    }
+
+    /* Mobile Touch Ripple Effect */
+    .touch-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 85, 31, 0.35);
+      transform: scale(0);
+      pointer-events: none;
+      animation: rippleAnim 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      z-index: 10;
+    }
+    @keyframes rippleAnim {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
       width: 44px;
       height: 44px;
       border-color: var(--orange);
@@ -1437,10 +1430,10 @@
       <!-- Category Filter Tabs -->
       <div class="filter-tabs" id="filter-tabs">
         <button class="filter-btn active" onclick="filterProjects('all', this)">ALL (<span id="count-all">8</span>)</button>
-        <button class="filter-btn" onclick="filterProjects('reel', this)">REELS & SHORTS</button>
-        <button class="filter-btn" onclick="filterProjects('commercial', this)">COMMERCIALS / ADS</button>
-        <button class="filter-btn" onclick="filterProjects('educational', this)">EDUCATIONAL</button>
-        <button class="filter-btn" onclick="filterProjects('motion', this)">MOTION & AI</button>
+        <button class="filter-btn" onclick="filterProjects('reel', this)">REELS & SHORTS (<span id="count-reel">4</span>)</button>
+        <button class="filter-btn" onclick="filterProjects('commercial', this)">COMMERCIALS / ADS (<span id="count-comm">2</span>)</button>
+        <button class="filter-btn" onclick="filterProjects('educational', this)">EDUCATIONAL (<span id="count-edu">3</span>)</button>
+        <button class="filter-btn" onclick="filterProjects('motion', this)">MOTION & AI (<span id="count-motion">1</span>)</button>
       </div>
 
       <div id="work-grid" class="work-grid">
@@ -1742,102 +1735,92 @@
     }, entranceDelay);
   }
 
-  // Hero Desktop Mouse Physical Presence (Subtle coordinate displacement)
-  (function initHeroMousePresence() {
-    if (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const heroSection = document.getElementById('section-hero');
-    const typoContainer = document.getElementById('hero-typo-container');
-    if (!heroSection || !typoContainer) return;
-
-    let targetX = 0, targetY = 0;
-    let currentX = 0, currentY = 0;
-    let isTracking = false;
-
-    heroSection.addEventListener('mousemove', (e) => {
-      if (!isHeroAssembled) return;
-      const rect = heroSection.getBoundingClientRect();
-      const relX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-      const relY = (e.clientY - rect.top) / rect.height - 0.5;
-      targetX = relX * 7; // Max 3.5px displacement
-      targetY = relY * 5; // Max 2.5px displacement
-      if (!isTracking) {
-        isTracking = true;
-        requestAnimationFrame(renderMousePresence);
-      }
-    }, { passive: true });
-
-    heroSection.addEventListener('mouseleave', () => {
-      targetX = 0;
-      targetY = 0;
-    });
-
-    function renderMousePresence() {
-      currentX += (targetX - currentX) * 0.08;
-      currentY += (targetY - currentY) * 0.08;
-      typoContainer.style.transform = `translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
-
-      if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
-        requestAnimationFrame(renderMousePresence);
-      } else {
-        isTracking = false;
-      }
-    }
-  })();
-
-  // Hero Scroll Transition: subtle tracking expansion and upward exit
-  (function initHeroScrollTransition() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const wordEl = document.getElementById('hero-word-text');
-    const typoContainer = document.getElementById('hero-typo-container');
-    const lineEl = document.getElementById('hero-typo-line');
-
-    window.addEventListener('scroll', () => {
-      if (!isHeroAssembled || !wordEl || !typoContainer) return;
-      const scrollY = window.scrollY || window.pageYOffset;
-      const heroHeight = window.innerHeight;
-
-      if (scrollY <= heroHeight) {
-        const progress = Math.min(1, scrollY / (heroHeight * 0.75));
-        // Letter-spacing shifts gently from -0.055em to -0.015em
-        const currentTracking = -0.055 + (progress * 0.04);
-        wordEl.style.letterSpacing = `${currentTracking.toFixed(4)}em`;
-        typoContainer.style.transform = `translate3d(0, ${(-progress * 24).toFixed(1)}px, 0) scale(${(1 - (progress * 0.04)).toFixed(3)})`;
-        if (lineEl) lineEl.style.opacity = `${(0.45 * (1 - progress)).toFixed(2)}`;
-      }
-    }, { passive: true });
-  })();
-
-
-
-  // 2. Custom Minimalist Cursor (Desktop Only)
-  (function initCursor() {
+  // 1. Universal Pointer & Mobile Touch Particle / Ripple System
+  (function initUniversalPointerAndTouch() {
     const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
-    if (!dot || !ring || window.matchMedia('(pointer: coarse)').matches) return;
+    if (!dot || !ring) return;
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let ringX = targetX;
+    let ringY = targetY;
+    let isTouch = false;
+    let isPointerActive = false;
 
+    // Desktop Mouse Tracking
     window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+      isTouch = false;
+      targetX = e.clientX;
+      targetY = e.clientY;
+      dot.style.transform = `translate(${targetX}px, ${targetY}px) translate(-50%, -50%)`;
+      if (!isPointerActive) {
+        isPointerActive = true;
+        dot.classList.add('active-pointer');
+        ring.classList.add('active-pointer');
+      }
     }, { passive: true });
 
-    function animateRing() {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-      requestAnimationFrame(animateRing);
-    }
-    requestAnimationFrame(animateRing);
+    // Mobile Touch Tracking & Halo
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) {
+        isTouch = true;
+        targetX = e.touches[0].clientX;
+        targetY = e.touches[0].clientY;
+        ringX = targetX;
+        ringY = targetY;
+        ring.classList.add('active-pointer', 'touch-active');
+        ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
 
-    // Hover delegates
+        // Create interactive touch ripple on tap targets
+        const target = e.target.closest('.project-media, .glass-tool, .filter-btn, .magnetic-btn, .theme-toggle, .hero-arrow');
+        if (target) {
+          createTouchRipple(e.touches[0], target);
+        }
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) {
+        targetX = e.touches[0].clientX;
+        targetY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      setTimeout(() => {
+        if (isTouch) {
+          ring.classList.remove('touch-active');
+        }
+      }, 250);
+    }, { passive: true });
+
+    // Smooth Spring Render Loop for Pointer Ring
+    function renderRing() {
+      const ease = isTouch ? 0.32 : 0.18;
+      ringX += (targetX - ringX) * ease;
+      ringY += (targetY - ringY) * ease;
+      ring.style.transform = `translate(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px) translate(-50%, -50%)`;
+      requestAnimationFrame(renderRing);
+    }
+    requestAnimationFrame(renderRing);
+
+    // Dynamic Touch Ripple Generator
+    function createTouchRipple(touch, container) {
+      const rect = container.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.8;
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${touch.clientX - rect.left - (size / 2)}px`;
+      ripple.style.top = `${touch.clientY - rect.top - (size / 2)}px`;
+      container.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    // Hover State Delegates
     document.addEventListener('mouseover', (e) => {
+      if (isTouch) return;
       const target = e.target;
       if (target.closest('a, button, .theme-toggle, .filter-btn, .contact-link-item')) {
         ring.classList.add('hovering-link');
@@ -1853,6 +1836,7 @@
     });
 
     document.addEventListener('mouseout', (e) => {
+      if (isTouch) return;
       const target = e.target;
       if (target.closest('a, button, .theme-toggle, .filter-btn, .contact-link-item')) {
         ring.classList.remove('hovering-link');
@@ -1864,9 +1848,84 @@
     });
   })();
 
+  // 2. Interactive 3D Tile Tilt & Dynamic Touch Physics (Desktop & Mobile)
+  (function initTileTiltAndMotion() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Attach 3D tilt on all tiles and toolkit cards
+    function attachTilt(el) {
+      if (el.dataset.hasTilt) return;
+      el.dataset.hasTilt = '1';
+
+      function handleMove(clientX, clientY) {
+        const rect = el.getBoundingClientRect();
+        const x = (clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+        const y = (clientY - rect.top) / rect.height - 0.5;
+        const rotateY = (x * 12).toFixed(1);
+        const rotateX = (-y * 12).toFixed(1);
+        el.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      }
+
+      function handleReset() {
+        el.style.transform = '';
+      }
+
+      el.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY), { passive: true });
+      el.addEventListener('mouseleave', handleReset);
+
+      // Mobile Touch Drag Tilt
+      el.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) {
+          handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      el.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) {
+          handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      el.addEventListener('touchend', () => {
+        setTimeout(handleReset, 200);
+      }, { passive: true });
+    }
+
+    // Observe and attach tilt dynamically
+    function refreshTiltTargets() {
+      document.querySelectorAll('.project-media, .glass-tool, #showreel-feature').forEach(attachTilt);
+    }
+    refreshTiltTargets();
+    window.addEventListener('load', refreshTiltTargets);
+
+    // Mobile Dynamic Scroll Tilt (Gives cards a tactile 3D perspective during scroll)
+    let lastScrollY = window.scrollY || 0;
+    let scrollVelocity = 0;
+    let isTicking = false;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY || 0;
+      scrollVelocity = Math.max(-10, Math.min(10, (currentScrollY - lastScrollY) * 0.35));
+      lastScrollY = currentScrollY;
+
+      if (!isTicking) {
+        isTicking = true;
+        requestAnimationFrame(() => {
+          document.querySelectorAll('.project-media, .glass-tool').forEach(card => {
+            if (!card.matches(':hover') && !card.dataset.touching) {
+              const tilt = (scrollVelocity * 0.45).toFixed(1);
+              card.style.transform = `perspective(800px) rotateX(${tilt}deg)`;
+            }
+          });
+          isTicking = false;
+        });
+      }
+    }, { passive: true });
+  })();
+
   // 3. Subtle Magnetic Movement on Major CTAs
   (function initMagnetic() {
-    if (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const magnetics = document.querySelectorAll('.magnetic-btn');
     magnetics.forEach(el => {
@@ -1874,9 +1933,9 @@
         const rect = el.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        const deltaX = (e.clientX - centerX) * 0.15;
-        const deltaY = (e.clientY - centerY) * 0.15;
-        el.style.transform = `translate(${Math.max(-8, Math.min(8, deltaX))}px, ${Math.max(-8, Math.min(8, deltaY))}px)`;
+        const deltaX = (e.clientX - centerX) * 0.18;
+        const deltaY = (e.clientY - centerY) * 0.18;
+        el.style.transform = `translate(${Math.max(-10, Math.min(10, deltaX))}px, ${Math.max(-10, Math.min(10, deltaY))}px)`;
       });
 
       el.addEventListener('mouseleave', () => {
@@ -2139,6 +2198,29 @@
     allLoadedProjects = items || [];
     const countAll = document.getElementById('count-all');
     if (countAll) countAll.textContent = allLoadedProjects.length;
+
+    // Dynamically calculate category counts
+    const reelCount = allLoadedProjects.filter(item => {
+      const c = (item.category || '').toLowerCase();
+      return c.includes('reel') || c.includes('short') || c.includes('social');
+    }).length;
+    const commCount = allLoadedProjects.filter(item => {
+      const c = (item.category || '').toLowerCase();
+      return c.includes('commercial') || c.includes('brand') || c.includes('ad');
+    }).length;
+    const eduCount = allLoadedProjects.filter(item => {
+      const c = (item.category || '').toLowerCase();
+      return c.includes('edu') || c.includes('clat') || c.includes('explainer') || c.includes('judiciary');
+    }).length;
+    const motionCount = allLoadedProjects.filter(item => {
+      const c = (item.category || '').toLowerCase();
+      return c.includes('motion') || c.includes('ai') || c.includes('cinematic') || c.includes('experimental');
+    }).length;
+
+    const countReel = document.getElementById('count-reel'); if (countReel) countReel.textContent = reelCount;
+    const countComm = document.getElementById('count-comm'); if (countComm) countComm.textContent = commCount;
+    const countEdu = document.getElementById('count-edu'); if (countEdu) countEdu.textContent = eduCount;
+    const countMotion = document.getElementById('count-motion'); if (countMotion) countMotion.textContent = motionCount;
 
     if(!items || !items.length){
       grid.innerHTML = '<article class="project project-landscape"><div class="project-media"><span>NO PROJECTS YET</span></div></article>';
