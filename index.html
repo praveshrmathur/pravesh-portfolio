@@ -456,21 +456,6 @@
       transform: translate3d(0, 0, 0);
       will-change: transform;
     }
-    .hero-glass-aura {
-      position: absolute;
-      inset: -20px -30px;
-      background: radial-gradient(ellipse 75% 55% at 50% 50%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 85, 31, 0.09) 50%, transparent 80%);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 40px;
-      pointer-events: none;
-      z-index: -1;
-      opacity: 0.90;
-      transition: opacity 0.3s ease;
-    }
-    [data-theme="dark"] .hero-glass-aura {
-      background: radial-gradient(ellipse 75% 55% at 50% 50%, rgba(255, 85, 31, 0.14) 0%, rgba(255, 85, 31, 0.03) 50%, transparent 80%);
-    }
     .hero-word {
       font-size: clamp(42px, 14.2vw, 240px);
       line-height: 0.85;
@@ -484,19 +469,14 @@
       align-items: center;
       background: linear-gradient(180deg, var(--ink) 25%, var(--orange) 85%);
       -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
       color: transparent;
       user-select: none;
       perspective: 1000px;
       position: relative;
-      filter: drop-shadow(0 0 2px rgba(255, 85, 31, 0.45)) drop-shadow(0 8px 26px rgba(255, 85, 31, 0.20));
-      -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.35);
-      transition: letter-spacing 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
-      will-change: letter-spacing, transform, filter;
-    }
-    [data-theme="dark"] .hero-word {
-      filter: drop-shadow(0 0 2.5px rgba(255, 85, 31, 0.65)) drop-shadow(0 10px 32px rgba(255, 85, 31, 0.30));
-      -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.18);
+      transition: letter-spacing 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: letter-spacing, transform;
     }
     .hero-letter {
       display: inline-block;
@@ -516,7 +496,7 @@
       background: var(--orange);
       margin-top: 18px;
       opacity: 0.45;
-      box-shadow: 0 0 10px rgba(255, 85, 31, 0.4);
+      box-shadow: 0 0 10px rgba(255, 85, 31, 0.35);
       transition: width 0.4s ease, opacity 0.4s ease;
     }
     .hero-bottom {
@@ -1403,6 +1383,9 @@
         grid-template-columns: 1fr;
         gap: 6px;
       }
+      .glass-edge-blur-top { height: 32px; }
+      .glass-edge-blur-bottom { height: 42px; }
+      .glass-edge-blur-left, .glass-edge-blur-right { width: 18px; }
       .glass-tools {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
@@ -1534,7 +1517,6 @@
 
       <div class="hero-word-wrap">
         <div class="hero-typography-container" id="hero-typo-container">
-          <div class="hero-glass-aura"></div>
           <h1 id="hero-word-text" class="hero-word" aria-label="PORTFOLIO">PORTFOLIO</h1>
           <div class="hero-typo-line" id="hero-typo-line"></div>
         </div>
