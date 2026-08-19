@@ -633,22 +633,22 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.60;
+      opacity: 0.95;
     }
     .hero-grid-lines {
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(to right, rgba(255, 85, 31, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
-      background-size: clamp(30px, 6vw, 60px) clamp(30px, 6vw, 60px);
-      mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, black 40%, transparent 85%);
-      -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, black 40%, transparent 85%);
+        linear-gradient(to right, rgba(255, 85, 31, 0.10) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+      background-size: clamp(36px, 5vw, 64px) clamp(36px, 5vw, 64px);
+      mask-image: radial-gradient(ellipse 90% 75% at 50% 50%, black 55%, transparent 95%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 50%, black 55%, transparent 95%);
     }
     [data-theme="dark"] .hero-grid-lines {
       background-image: 
-        linear-gradient(to right, rgba(255, 85, 31, 0.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 85, 31, 0.18) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
     }
     .hero-floating-timecodes {
       position: absolute;
@@ -790,8 +790,8 @@
       height: 2px;
       background: var(--orange);
       margin-top: 18px;
-      opacity: 0.45;
-      box-shadow: 0 0 10px rgba(255, 85, 31, 0.35);
+      opacity: 0.75;
+      box-shadow: 0 0 14px rgba(255, 85, 31, 0.55);
       transition: width 0.4s ease, opacity 0.4s ease;
     }
     .hero-bottom {
@@ -868,12 +868,12 @@
       z-index: 2;
     }
 
-    /* Intro Section */
+    /* Intro Section & Passion Segment (Writing & Direction) */
     .intro {
       background: var(--bg-card);
       transition: background-color 0.3s ease;
     }
-    .intro p {
+    .intro p#intro-paragraph {
       font-size: clamp(26px, 4.5vw, 76px);
       line-height: 1.08;
       letter-spacing: -0.05em;
@@ -882,6 +882,111 @@
       font-weight: 400;
       position: relative;
       z-index: 2;
+    }
+    .intro-passion-block {
+      position: relative;
+      z-index: 2;
+      margin-top: clamp(36px, 5vh, 56px);
+    }
+    .passion-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--line);
+      margin-bottom: clamp(28px, 4vh, 42px);
+      opacity: 0.85;
+    }
+    .passion-grid {
+      display: grid;
+      grid-template-columns: minmax(180px, 240px) 1fr;
+      gap: clamp(24px, 4vw, 56px);
+      align-items: start;
+    }
+    .passion-label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .passion-tag {
+      font: 10px "DM Mono", monospace;
+      letter-spacing: 0.12em;
+      color: var(--orange);
+      text-transform: uppercase;
+    }
+    .passion-label h4 {
+      font-size: clamp(17px, 1.8vw, 24px);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin: 0;
+    }
+    .passion-body {
+      display: flex;
+      flex-direction: column;
+    }
+    .passion-statement {
+      font-size: clamp(15px, 1.4vw, 21px);
+      line-height: 1.55;
+      letter-spacing: -0.025em;
+      color: var(--muted);
+      font-weight: 400;
+      max-width: 820px;
+      margin: 0 0 clamp(20px, 3vh, 28px);
+    }
+    .passion-project-teaser {
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--orange);
+      border-radius: 16px;
+      padding: clamp(14px, 2vw, 18px) clamp(16px, 2.2vw, 24px);
+      max-width: 660px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .passion-project-teaser:hover {
+      transform: translateY(-2px);
+      border-color: var(--orange);
+      box-shadow: 0 8px 24px var(--orange-glow), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+    .teaser-status-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font: 9.5px "DM Mono", monospace;
+      color: var(--orange);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .teaser-pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 8px var(--orange);
+      animation: teaserPulse 1.8s infinite ease-in-out;
+    }
+    @keyframes teaserPulse {
+      0%, 100% { opacity: 0.45; transform: scale(0.85); }
+      50% { opacity: 1; transform: scale(1.25); }
+    }
+    .teaser-title {
+      font-size: clamp(15px, 1.5vw, 18px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      display: block;
+      margin-top: 2px;
+    }
+    .teaser-role {
+      font: 10.5px "DM Mono", monospace;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     /* Showreel Section */
@@ -2301,8 +2406,12 @@
         font-size: 11px;
       }
       .hero-title {
-        font-size: clamp(18px, 4.8vw, 28px);
-        line-height: 1.1;
+        font-size: clamp(16px, 4.4vw, 24px);
+        line-height: 1.15;
+      }
+      .passion-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
       .hero-arrow {
         width: 68px;
@@ -2477,13 +2586,13 @@
 
   <!-- Header Navigation -->
   <header class="nav">
-    <a class="brand" href="#top">PRAVESH R MATHUR<span>.</span></a>
+    <a class="brand" href="#top" onclick="scrollToSection(event, 'top')">PRAVESH R MATHUR<span>.</span></a>
     <div class="nav-right">
       <nav>
-        <a href="#work">WORK</a>
-        <a href="#about">ABOUT</a>
-        <a href="#tools">TOOLS</a>
-        <a href="#contact">CONTACT</a>
+        <a href="#section-work" onclick="scrollToSection(event, 'work')">WORK</a>
+        <a href="#section-about" onclick="scrollToSection(event, 'about')">ABOUT</a>
+        <a href="#section-tools" onclick="scrollToSection(event, 'tools')">TOOLS</a>
+        <a href="#section-contact" onclick="scrollToSection(event, 'contact')">CONTACT</a>
       </nav>
       <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
         <span id="theme-icon">◐</span> <span id="theme-label">CINEMA</span>
@@ -2526,8 +2635,8 @@
       </div>
 
       <div class="hero-bottom">
-        <div class="hero-title"><span id="hero-title-prefix">//</span> <span id="hero-title-text">VIDEO EDITOR & PRODUCTION</span></div>
-        <a class="hero-arrow magnetic-btn" href="#work" aria-label="View Selected Work">VIEW<br>WORK ↓</a>
+        <div class="hero-title"><span id="hero-title-prefix">//</span> <span id="hero-title-text">VIDEO EDITOR - PRODUCTION - DIRECTION</span></div>
+        <a class="hero-arrow magnetic-btn" href="#section-work" onclick="scrollToSection(event, 'work')" aria-label="View Selected Work">VIEW<br>WORK ↓</a>
       </div>
     </section>
 
@@ -2536,9 +2645,37 @@
       <div class="bg-watermark" style="top: 10px;">STORY</div>
       <div class="section-head">
         <span id="intro-head-num">00 / INTRO</span>
-        <span id="intro-head-label">VIDEO • MOTION • AI</span>
+        <span id="intro-head-label">POST-PRODUCTION • STORY • CINEMA</span>
       </div>
+      
+      <!-- Primary Professional Statement -->
       <p id="intro-paragraph" class="reveal-item">I turn raw footage, ideas and motion into engaging visual stories for digital-first brands and creator platforms.</p>
+
+      <!-- Passion Segment (Writing & Direction + Project Teaser) -->
+      <div class="intro-passion-block reveal-item">
+        <div class="passion-divider"></div>
+        <div class="passion-grid">
+          <div class="passion-label">
+            <span class="passion-tag">PASSION & DIRECTION</span>
+            <h4>WRITING & DIRECTION</h4>
+          </div>
+          <div class="passion-body">
+            <p class="passion-statement">
+              Beyond the edit, I write. I build stories, characters and worlds that I want to bring to the screen. My goal is to become a Writer-Director — and I'm already working toward it.
+            </p>
+            
+            <!-- Subtle Project Teaser -->
+            <div class="passion-project-teaser">
+              <div class="teaser-status-badge">
+                <span class="teaser-pulse-dot"></span>
+                <span>CURRENTLY DEVELOPING</span>
+              </div>
+              <strong class="teaser-title">BLANKO — THE KNIFE MAFIA</strong>
+              <span class="teaser-role">Writer / Director · In Development</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Showreel Section -->
@@ -2907,6 +3044,27 @@
     requestAnimationFrame(updatePreloader);
   })();
 
+  // Universal Smooth Scroll Handler for Links and Buttons
+  function scrollToSection(e, secId) {
+    if (e && e.preventDefault) e.preventDefault();
+    const raw = String(secId || '').replace('#', '').replace(/^section-/, '');
+    if (raw === 'top' || raw === '') {
+      if (lenisInstance) lenisInstance.scrollTo(0, { duration: 1.2 });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+      return false;
+    }
+    const target = document.getElementById('section-' + raw) || document.getElementById(raw) || document.querySelector('#section-' + raw) || document.querySelector('#' + raw);
+    if (target) {
+      if (lenisInstance) {
+        lenisInstance.scrollTo(target, { offset: -60, duration: 1.2 });
+      } else {
+        const topPos = target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) - 60;
+        window.scrollTo({ top: topPos, behavior: 'smooth' });
+      }
+    }
+    return false;
+  }
+
   // 120Hz Momentum Inertia Smooth Scroll (Lenis Engine)
   (function initSmoothScroll() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -2930,24 +3088,15 @@
           requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
-
-        // Smooth in-page anchor scrolling with exact header offset
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if (href === '#' || href === '#top') {
-              e.preventDefault();
-              lenisInstance.scrollTo(0, { duration: 1.2 });
-            } else if (href.startsWith('#') && href.length > 1) {
-              const target = document.querySelector(href);
-              if (target) {
-                e.preventDefault();
-                lenisInstance.scrollTo(target, { offset: -50, duration: 1.2 });
-              }
-            }
-          });
-        });
       }
+
+      // Smooth in-page anchor scrolling with exact header offset
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          scrollToSection(e, href);
+        });
+      });
     } catch(e) {
       console.log('Smooth scroll fallback:', e);
     }
@@ -3095,25 +3244,28 @@
       if (!parent) return;
       const rect = parent.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = rect.width;
-      height = rect.height;
+      width = rect.width || window.innerWidth;
+      height = rect.height || (window.innerHeight - 60);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       ctx.scale(dpr, dpr);
     }
     resize();
     window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('load', resize, { passive: true });
+    setTimeout(resize, 300);
+    setTimeout(resize, 1000);
 
-    // 8 Elegant, Soft-Opacity Kinetic Timeline Wave Streams
+    // 8 Elegant, Vivid Kinetic Timeline Wave Streams Behind PORTFOLIO
     const streamTracks = [
-      { yRatio: 0.18, speed: 0.009, freq: 0.0032, amp: 20, color: 'rgba(255, 85, 31, 0.08)', lineWidth: 1.0, dash: [6, 10] },
-      { yRatio: 0.28, speed: -0.011, freq: 0.0040, amp: 26, color: 'rgba(255, 85, 31, 0.11)', lineWidth: 1.2, dash: [] },
-      { yRatio: 0.38, speed: 0.013, freq: 0.0035, amp: 30, color: 'rgba(255, 85, 31, 0.14)', lineWidth: 1.4, dash: [8, 12] },
-      { yRatio: 0.48, speed: -0.014, freq: 0.0042, amp: 34, color: 'rgba(255, 85, 31, 0.16)', lineWidth: 1.5, dash: [] },
-      { yRatio: 0.58, speed: 0.012, freq: 0.0036, amp: 32, color: 'rgba(255, 85, 31, 0.14)', lineWidth: 1.4, dash: [10, 14] },
-      { yRatio: 0.68, speed: -0.010, freq: 0.0044, amp: 28, color: 'rgba(255, 85, 31, 0.12)', lineWidth: 1.2, dash: [] },
-      { yRatio: 0.78, speed: 0.011, freq: 0.0034, amp: 24, color: 'rgba(255, 85, 31, 0.10)', lineWidth: 1.1, dash: [6, 10] },
-      { yRatio: 0.88, speed: -0.008, freq: 0.0030, amp: 18, color: 'rgba(255, 85, 31, 0.07)', lineWidth: 1.0, dash: [] }
+      { yRatio: 0.18, speed: 0.010, freq: 0.0028, amp: 22, color: 'rgba(255, 85, 31, 0.28)', lineWidth: 1.4, dash: [8, 12] },
+      { yRatio: 0.28, speed: -0.013, freq: 0.0035, amp: 28, color: 'rgba(255, 85, 31, 0.38)', lineWidth: 1.6, dash: [] },
+      { yRatio: 0.38, speed: 0.015, freq: 0.0032, amp: 34, color: 'rgba(255, 85, 31, 0.48)', lineWidth: 1.8, dash: [10, 14] },
+      { yRatio: 0.48, speed: -0.016, freq: 0.0038, amp: 38, color: 'rgba(255, 85, 31, 0.54)', lineWidth: 2.0, dash: [] },
+      { yRatio: 0.58, speed: 0.014, freq: 0.0034, amp: 35, color: 'rgba(255, 85, 31, 0.48)', lineWidth: 1.8, dash: [12, 16] },
+      { yRatio: 0.68, speed: -0.012, freq: 0.0040, amp: 30, color: 'rgba(255, 85, 31, 0.40)', lineWidth: 1.6, dash: [] },
+      { yRatio: 0.78, speed: 0.011, freq: 0.0032, amp: 25, color: 'rgba(255, 85, 31, 0.32)', lineWidth: 1.4, dash: [8, 12] },
+      { yRatio: 0.88, speed: -0.009, freq: 0.0028, amp: 20, color: 'rgba(255, 85, 31, 0.25)', lineWidth: 1.2, dash: [] }
     ];
 
     let isCanvasVisible = true;
@@ -3175,9 +3327,10 @@
           const particleX = rawX < 0 ? travelDist + rawX : rawX;
           const particleY = baseY + Math.sin(particleX * line.freq + timeOffset) * line.amp + Math.cos(particleX * (line.freq * 0.5) - timeOffset * 0.65) * (line.amp * 0.35);
 
-          ctx.fillStyle = 'rgba(255, 85, 31, 0.40)';
+          // Glowing particle halo
+          ctx.fillStyle = 'rgba(255, 85, 31, 0.75)';
           ctx.beginPath();
-          ctx.arc(particleX, particleY, 1.6, 0, Math.PI * 2);
+          ctx.arc(particleX, particleY, 2.2, 0, Math.PI * 2);
           ctx.fill();
         }
       });
