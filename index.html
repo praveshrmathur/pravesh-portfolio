@@ -205,20 +205,24 @@
       box-shadow: 0 8px 24px rgba(255, 85, 31, 0.4);
     }
 
-    /* Top Navigation */
+    /* Glassmorphic Minimalist Navigation */
     .nav {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: clamp(14px, 2vh, 18px) 4vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 4vw;
-      background: var(--nav-bg);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--line);
-      transition: background-color 0.3s ease, border-color 0.3s ease;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), 0 10px 30px rgba(0, 0, 0, 0.02);
+      transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    [data-theme="dark"] .nav {
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05), 0 12px 36px rgba(0, 0, 0, 0.35);
     }
     .brand {
       font-weight: 700;
@@ -265,24 +269,28 @@
       width: 100%;
     }
 
-    /* Theme Switcher Button */
+    /* Glassmorphic Theme Switcher Button */
     .theme-toggle {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 20px;
       border: 1px solid var(--line);
-      background: var(--grey);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       color: var(--ink);
       font: 10px "DM Mono", monospace;
       cursor: pointer;
       letter-spacing: 0.04em;
-      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
     .theme-toggle:hover {
       border-color: var(--orange);
       transform: scale(1.03);
+      box-shadow: 0 4px 16px var(--orange-glow);
     }
 
     /* Main Container for dynamic section reordering */
@@ -321,6 +329,101 @@
       overflow: hidden;
       transition: background-color 0.3s ease;
     }
+
+    /* Trendy Blurry Edge Glass Vignettes */
+    .glass-edge-blur-top, .glass-edge-blur-bottom, .glass-edge-blur-left, .glass-edge-blur-right {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .glass-edge-blur-top {
+      top: 0; left: 0; right: 0; height: 48px;
+      mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+    }
+    .glass-edge-blur-bottom {
+      bottom: 0; left: 0; right: 0; height: 60px;
+      mask-image: linear-gradient(to top, black 0%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);
+    }
+    .glass-edge-blur-left {
+      top: 0; bottom: 0; left: 0; width: 36px;
+      mask-image: linear-gradient(to right, black 0%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+    }
+    .glass-edge-blur-right {
+      top: 0; bottom: 0; right: 0; width: 36px;
+      mask-image: linear-gradient(to left, black 0%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+    }
+
+    /* Continuous Abstract Kinetic Movie Lines & Timeline Backdrop */
+    .hero-motion-backdrop {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      user-select: none;
+    }
+    .hero-stream-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.60;
+    }
+    .hero-grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 85, 31, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+      background-size: clamp(30px, 6vw, 60px) clamp(30px, 6vw, 60px);
+      mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, black 40%, transparent 85%);
+      -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, black 40%, transparent 85%);
+    }
+    [data-theme="dark"] .hero-grid-lines {
+      background-image: 
+        linear-gradient(to right, rgba(255, 85, 31, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+    .hero-floating-timecodes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .timecode-badge {
+      position: absolute;
+      font: 9.5px "DM Mono", monospace;
+      color: var(--orange);
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      padding: 5px 12px;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+      opacity: 0.55;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    [data-theme="dark"] .timecode-badge {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .timecode-badge.top-left { top: 16%; left: 4vw; animation: floatPulse 6s ease-in-out infinite; }
+    .timecode-badge.top-right { top: 20%; right: 4vw; animation: floatPulse 7s ease-in-out 1s infinite; }
+    .timecode-badge.mid-left { top: 64%; left: 4vw; opacity: 0.40; animation: floatPulse 5.5s ease-in-out 0.5s infinite; }
+    .timecode-badge.bottom-right { bottom: 18%; right: 4vw; animation: floatPulse 6.5s ease-in-out 1.5s infinite; }
+    @keyframes floatPulse {
+      0%, 100% { opacity: 0.40; transform: translateY(0); }
+      50% { opacity: 0.75; transform: translateY(-4px); }
+    }
     .hero-top {
       display: flex;
       justify-content: space-between;
@@ -353,6 +456,21 @@
       transform: translate3d(0, 0, 0);
       will-change: transform;
     }
+    .hero-glass-aura {
+      position: absolute;
+      inset: -20px -30px;
+      background: radial-gradient(ellipse 75% 55% at 50% 50%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 85, 31, 0.09) 50%, transparent 80%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 40px;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.90;
+      transition: opacity 0.3s ease;
+    }
+    [data-theme="dark"] .hero-glass-aura {
+      background: radial-gradient(ellipse 75% 55% at 50% 50%, rgba(255, 85, 31, 0.14) 0%, rgba(255, 85, 31, 0.03) 50%, transparent 80%);
+    }
     .hero-word {
       font-size: clamp(42px, 14.2vw, 240px);
       line-height: 0.85;
@@ -364,15 +482,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(180deg, var(--ink) 30%, var(--orange) 85%);
+      background: linear-gradient(180deg, var(--ink) 25%, var(--orange) 85%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       user-select: none;
       perspective: 1000px;
       position: relative;
-      transition: letter-spacing 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: letter-spacing, transform;
+      filter: drop-shadow(0 0 2px rgba(255, 85, 31, 0.45)) drop-shadow(0 8px 26px rgba(255, 85, 31, 0.20));
+      -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.35);
+      transition: letter-spacing 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+      will-change: letter-spacing, transform, filter;
+    }
+    [data-theme="dark"] .hero-word {
+      filter: drop-shadow(0 0 2.5px rgba(255, 85, 31, 0.65)) drop-shadow(0 10px 32px rgba(255, 85, 31, 0.30));
+      -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.18);
     }
     .hero-letter {
       display: inline-block;
@@ -392,6 +516,7 @@
       background: var(--orange);
       margin-top: 18px;
       opacity: 0.45;
+      box-shadow: 0 0 10px rgba(255, 85, 31, 0.4);
       transition: width 0.4s ease, opacity 0.4s ease;
     }
     .hero-bottom {
@@ -560,26 +685,30 @@
       z-index: 2;
     }
     .filter-btn {
-      padding: 8px 16px;
-      background: var(--grey);
+      padding: 8px 18px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       color: var(--muted);
       border: 1px solid var(--line);
       border-radius: 30px;
       font: 11px "DM Mono", monospace;
       letter-spacing: 0.04em;
       cursor: pointer;
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transition: all 0.25s ease;
     }
     .filter-btn:hover {
       color: var(--ink);
       border-color: var(--orange);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 85, 31, 0.15);
     }
     .filter-btn.active {
       background: var(--orange);
       color: #fff;
       border-color: var(--orange);
-      box-shadow: 0 4px 14px rgba(255, 85, 31, 0.25);
+      box-shadow: 0 6px 20px rgba(255, 85, 31, 0.35);
     }
 
     /* Dynamic Grid: 1x 16:9 Banner + 3x 9:16 Reels Rhythm */
@@ -728,9 +857,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 12px;
+      padding: 10px 14px;
+      margin-top: 10px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--line);
+      border-radius: 12px;
       font: 11px "DM Mono", monospace;
       letter-spacing: 0.03em;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.5);
     }
     .project-meta b {
       color: var(--orange);
@@ -1373,6 +1509,24 @@
   <div id="main-content">
     <!-- Hero Section -->
     <section id="section-hero" class="hero">
+      <!-- Trendy Blurry Edge Glass Vignettes -->
+      <div class="glass-edge-blur-top"></div>
+      <div class="glass-edge-blur-bottom"></div>
+      <div class="glass-edge-blur-left"></div>
+      <div class="glass-edge-blur-right"></div>
+
+      <!-- Continuous Abstract Kinetic Movie Lines & Grid Stream (z-index: 0) -->
+      <div class="hero-motion-backdrop" id="hero-motion-backdrop">
+        <canvas id="hero-stream-canvas" class="hero-stream-canvas"></canvas>
+        <div class="hero-grid-lines"></div>
+        <div class="hero-floating-timecodes">
+          <span class="timecode-badge top-left">00:00:24:18 // REC ●</span>
+          <span class="timecode-badge top-right">4K DCI • 24.00 FPS</span>
+          <span class="timecode-badge mid-left">TIMELINE_TRK_01</span>
+          <span class="timecode-badge bottom-right">AUDIO // -6.0 dB</span>
+        </div>
+      </div>
+
       <div class="hero-top">
         <span id="hero-kicker-text">VIDEO EDITOR</span>
         <span id="hero-kicker-right">PORTFOLIO 2026</span>
@@ -1380,6 +1534,7 @@
 
       <div class="hero-word-wrap">
         <div class="hero-typography-container" id="hero-typo-container">
+          <div class="hero-glass-aura"></div>
           <h1 id="hero-word-text" class="hero-word" aria-label="PORTFOLIO">PORTFOLIO</h1>
           <div class="hero-typo-line" id="hero-typo-line"></div>
         </div>
@@ -1730,6 +1885,88 @@
 
     }, entranceDelay);
   }
+
+  // 0.1 Dense Kinetic Movie Wave & Timeline Stream System (20 Layered Flowing Tracks)
+  (function initHeroStreamCanvas() {
+    const canvas = document.getElementById('hero-stream-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0, height = 0;
+    let step = 0;
+
+    function resize() {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      const rect = parent.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    // 8 Elegant, Soft-Opacity Kinetic Timeline Wave Streams
+    const streamTracks = [
+      { yRatio: 0.18, speed: 0.009, freq: 0.0032, amp: 20, color: 'rgba(255, 85, 31, 0.08)', lineWidth: 1.0, dash: [6, 10] },
+      { yRatio: 0.28, speed: -0.011, freq: 0.0040, amp: 26, color: 'rgba(255, 85, 31, 0.11)', lineWidth: 1.2, dash: [] },
+      { yRatio: 0.38, speed: 0.013, freq: 0.0035, amp: 30, color: 'rgba(255, 85, 31, 0.14)', lineWidth: 1.4, dash: [8, 12] },
+      { yRatio: 0.48, speed: -0.014, freq: 0.0042, amp: 34, color: 'rgba(255, 85, 31, 0.16)', lineWidth: 1.5, dash: [] },
+      { yRatio: 0.58, speed: 0.012, freq: 0.0036, amp: 32, color: 'rgba(255, 85, 31, 0.14)', lineWidth: 1.4, dash: [10, 14] },
+      { yRatio: 0.68, speed: -0.010, freq: 0.0044, amp: 28, color: 'rgba(255, 85, 31, 0.12)', lineWidth: 1.2, dash: [] },
+      { yRatio: 0.78, speed: 0.011, freq: 0.0034, amp: 24, color: 'rgba(255, 85, 31, 0.10)', lineWidth: 1.1, dash: [6, 10] },
+      { yRatio: 0.88, speed: -0.008, freq: 0.0030, amp: 18, color: 'rgba(255, 85, 31, 0.07)', lineWidth: 1.0, dash: [] }
+    ];
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      step += 1;
+
+      streamTracks.forEach((line, i) => {
+        ctx.beginPath();
+        ctx.strokeStyle = line.color;
+        ctx.lineWidth = line.lineWidth;
+        ctx.setLineDash(line.dash);
+
+        const baseY = height * line.yRatio;
+        const timeOffset = step * line.speed;
+
+        for (let x = 0; x <= width; x += 12) {
+          const wave1 = Math.sin(x * line.freq + timeOffset) * line.amp;
+          const wave2 = Math.cos(x * (line.freq * 0.5) - timeOffset * 0.65) * (line.amp * 0.35);
+          const y = baseY + wave1 + wave2;
+
+          if (x === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        ctx.stroke();
+
+        // Soft subtle playhead node on alternating stream lines
+        if (i % 2 === 1) {
+          const speedMult = line.speed > 0 ? 1 : -1;
+          const travelDist = width + 140;
+          const rawX = (step * speedMult * 14 + (i * 120)) % travelDist;
+          const particleX = rawX < 0 ? travelDist + rawX : rawX;
+          const particleY = baseY + Math.sin(particleX * line.freq + timeOffset) * line.amp + Math.cos(particleX * (line.freq * 0.5) - timeOffset * 0.65) * (line.amp * 0.35);
+
+          ctx.fillStyle = 'rgba(255, 85, 31, 0.40)';
+          ctx.beginPath();
+          ctx.arc(particleX, particleY, 1.6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
 
   // 1. Universal Pointer & Mobile Touch Particle / Ripple System
   (function initUniversalPointerAndTouch() {
