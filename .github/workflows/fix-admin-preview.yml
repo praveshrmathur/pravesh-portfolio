@@ -1,0 +1,129 @@
+name: Stabilize admin preview
+
+on:
+  push:
+    paths:
+      - '.admin-preview-fix-trigger'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Patch admin preview
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('admin.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '/* PRAVESH_ADMIN_STABLE_PREVIEW_V1 */'
+          if marker in s:
+              print('Stable preview patch already present')
+          else:
+              patch = r'''<style id="pravesh-admin-preview-css">
+              /* PRAVESH_ADMIN_STABLE_PREVIEW_V1 */
+              #preview { opacity: 1 !important; transform: translateZ(0); backface-visibility: hidden; }
+              </style>
+              <script>
+              (() => {
+                const STABLE_STYLE = `
+                  *,*::before,*::after{
+                    animation:none !important;
+                    transition:none !important;
+                    scroll-behavior:auto !important;
+                  }
+                `;
+                let previewReady = false;
+                let pending = false;
+                let lastPayload = '';
+                let stablePreview = true;
+
+                function stableFrame(){
+                  const frame = document.getElementById('preview');
+                  if (!frame) return;
+                  try {
+                    const doc = frame.contentDocument;
+                    if (!doc) return;
+                    let style = doc.getElementById('pravesh-admin-stable-style');
+                    if (!style) {
+                      style = doc.createElement('style');
+                      style.id = 'pravesh-admin-stable-style';
+                      doc.head.appendChild(style);
+                    }
+                    style.textContent = stablePreview ? STABLE_STYLE : '';
+                  } catch (_) {}
+                }
+
+                function sendStable(){
+                  if (pending) return;
+                  pending = true;
+                  requestAnimationFrame(() => {
+                    pending = false;
+                    const frame = document.getElementById('preview');
+                    if (!frame || !frame.contentWindow) return;
+                    const payload = JSON.stringify(window.draft || {});
+                    if (payload === lastPayload && previewReady) return;
+                    lastPayload = payload;
+                    try {
+                      frame.contentWindow.postMessage({type:'PORTFOLIO_PREVIEW',settings:window.draft}, location.origin);
+                    } catch (_) {}
+                    setTimeout(stableFrame, 0);
+                  });
+                }
+
+                window.addEventListener('load', () => {
+                  const frame = document.getElementById('preview');
+                  if (!frame) return;
+                  frame.addEventListener('load', () => {
+                    previewReady = true;
+                    stableFrame();
+                    setTimeout(stableFrame, 50);
+                    setTimeout(stableFrame, 250);
+                  });
+                });
+
+                const originalPost = window.post;
+                window.post = function(){
+                  window.draft = window.draft || (typeof draft !== 'undefined' ? draft : {});
+                  clearTimeout(window.__praveshPostTimer);
+                  window.__praveshPostTimer = setTimeout(sendStable, 90);
+                };
+
+                window.addEventListener('message', (e) => {
+                  if (e.data && e.data.type === 'PRAVESH_STABLE_PREVIEW') {
+                    stablePreview = e.data.enabled !== false;
+                    stableFrame();
+                  }
+                });
+
+                setTimeout(() => {
+                  const frame = document.getElementById('preview');
+                  if (frame && frame.contentDocument) {
+                    previewReady = true;
+                    stableFrame();
+                  }
+                }, 1000);
+              })();
+              </script>'''
+              if '</body>' not in s:
+                  raise SystemExit('admin.html has no closing body tag')
+              s = s.replace('</body>', patch + '\n</body>', 1)
+              p.write_text(s, encoding='utf-8')
+
+      - name: Remove trigger
+        run: rm -f .admin-preview-fix-trigger
+
+      - name: Commit fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin.html .admin-preview-fix-trigger
+          git diff --cached --quiet && exit 0
+          git commit -m 'fix: stop admin preview flicker'
+          git push
