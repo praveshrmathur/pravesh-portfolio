@@ -590,10 +590,11 @@
             <div class="section-body">
               <div id="showThumbPreview" class="media-preview"></div>
               <div class="field"><label>SHOWREEL TITLE</label><input id="showTitle"></div>
-              <div class="field"><label>SHOWREEL VIDEO FILE</label><input id="showVideo" type="file" accept="video/*"></div>
-              <div class="field"><label>THUMBNAIL IMAGE</label><input id="showThumb" type="file" accept="image/*"></div>
-              <div class="field"><label>OR DIRECT VIDEO URL</label><input id="showVideoUrl" type="url" placeholder="https://..."></div>
-              <div class="field"><label>OR DIRECT THUMBNAIL URL</label><input id="showThumbUrl" type="url" placeholder="https://..."></div>
+              <div class="field"><label>YOUTUBE UNLISTED / VIMEO / DIRECT VIDEO URL</label><input id="showVideoUrl" type="text" placeholder="https://youtube.com/... or https://vimeo.com/..."></div>
+              <div class="field"><label>OR IFRAME EMBED CODE</label><textarea id="showEmbedCode" rows="2" placeholder="<iframe src=...></iframe>" style="font-family:monospace;font-size:11px;"></textarea></div>
+              <div class="field"><label>OR UPLOAD LOCAL VIDEO FILE</label><input id="showVideo" type="file" accept="video/*"></div>
+              <div class="field"><label>THUMBNAIL POSTER (AUTO-FETCHED FOR YOUTUBE)</label><input id="showThumbUrl" type="url" placeholder="Direct thumbnail URL"></div>
+              <div class="field"><label>OR UPLOAD CUSTOM THUMBNAIL</label><input id="showThumb" type="file" accept="image/*"></div>
             </div>
           </div>
 
@@ -696,15 +697,18 @@
       </div>
 
       <div class="field">
-        <label>VIDEO FILE (.MP4, .MOV)</label>
-        <input id="pVideo" type="file" accept="video/*">
-        <input id="pVideoUrl" type="url" placeholder="Or paste direct video URL" style="margin-top:6px;">
+        <label>VIDEO SOURCE (YOUTUBE UNLISTED, VIMEO, OR DIRECT URL)</label>
+        <input id="pVideoUrl" type="text" placeholder="Paste YouTube (unlisted/public), Vimeo URL, or MP4 URL">
+        <textarea id="pEmbedCode" rows="2" placeholder="Or paste <iframe> embed code here…" style="margin-top:6px;font-family:monospace;font-size:11px;"></textarea>
+        <div style="margin-top:6px;font-size:11px;color:#777;">Or upload local video file (.mp4, .mov):</div>
+        <input id="pVideo" type="file" accept="video/*" style="margin-top:4px;">
       </div>
 
       <div class="field">
-        <label>THUMBNAIL POSTER IMAGE (.JPG, .PNG)</label>
-        <input id="pThumb" type="file" accept="image/*">
-        <input id="pThumbUrl" type="url" placeholder="Or paste direct thumbnail URL" style="margin-top:6px;">
+        <label>THUMBNAIL POSTER IMAGE (AUTO-FETCHED FOR YOUTUBE)</label>
+        <input id="pThumbUrl" type="url" placeholder="Direct thumbnail URL (auto-filled for YouTube)">
+        <div style="margin-top:6px;font-size:11px;color:#777;">Or upload custom thumbnail image:</div>
+        <input id="pThumb" type="file" accept="image/*" style="margin-top:4px;">
       </div>
 
       <p id="projectMediaStatus" class="mini" style="color:#ff551f;margin-bottom:10px;"></p>
@@ -817,6 +821,20 @@
       if (!url) return null;
       const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|live\/))([\w-]{11})/i);
       return m ? m[1] : null;
+    }
+
+    function getVimeoId(url) {
+      if (!url) return null;
+      const m = url.match(/(?:vimeo\.com\/(?:video\/)?|player\.vimeo\.com\/video\/)(\d+)/i);
+      return m ? m[1] : null;
+    }
+
+    function extractEmbedSrc(input) {
+      if (!input) return '';
+      const text = input.trim();
+      const match = text.match(/src=["']([^"']+)["']/i);
+      if (match && match[1]) return match[1];
+      return text;
     }
 
     // High-Speed Chunked Resumable Upload (Supports 1GB+ video files)
@@ -1121,28 +1139,52 @@
       $('pVideo').value = '';
       $('pThumb').value = '';
       $('pVideoUrl').value = p.video_url || '';
+      $('pEmbedCode').value = '';
       $('pThumbUrl').value = p.thumbnail_url || '';
       $('projectMediaStatus').textContent = '';
+
+      if (p.video_url) {
+        const ytId = getYouTubeId(p.video_url);
+        const vimeoId = getVimeoId(p.video_url);
+        if (ytId) {
+          $('projectMediaStatus').textContent = '✓ YouTube Unlisted/Public video linked';
+        } else if (vimeoId) {
+          $('projectMediaStatus').textContent = '✓ Vimeo video linked';
+        }
+      }
+
       $('modal').classList.remove('hide');
     }
 
-    // Auto YouTube detection in modal
-    $('pVideoUrl').oninput = e => {
-      const url = e.target.value.trim();
-      const ytId = getYouTubeId(url);
+    // Auto YouTube, Vimeo, and iframe detection in modal
+    function handleProjectVideoInput(val) {
+      const parsed = extractEmbedSrc(val);
+      $('pVideoUrl').value = parsed;
+      const ytId = getYouTubeId(parsed);
+      const vimeoId = getVimeoId(parsed);
+
       if (ytId) {
-        $('projectMediaStatus').textContent = '✓ YouTube video recognized (plays on 1 click, automatic HD thumbnail)';
+        $('projectMediaStatus').textContent = '✓ YouTube video recognized (plays on 1 tap with audio & full controls)';
         if (!$('pThumbUrl').value.trim()) {
           $('pThumbUrl').value = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
         }
+      } else if (vimeoId) {
+        $('projectMediaStatus').textContent = '✓ Vimeo video recognized (plays on 1 tap with audio & full controls)';
+      } else if (parsed.includes('.mp4') || parsed.includes('.webm') || parsed.includes('.mov')) {
+        $('projectMediaStatus').textContent = '✓ Direct video link recognized (continuous looping preview + fullscreen player)';
       }
+    }
+
+    $('pVideoUrl').oninput = e => handleProjectVideoInput(e.target.value);
+    $('pEmbedCode').oninput = e => {
+      handleProjectVideoInput(e.target.value);
     };
 
     $('saveProject').onclick = async () => {
       try {
         $('projectMediaStatus').textContent = 'Preparing project…';
         const base = editing === null ? {} : (draft.projects[editing] || {});
-        let video = $('pVideoUrl').value.trim() || base.video_url || '';
+        let video = extractEmbedSrc($('pVideoUrl').value.trim()) || base.video_url || '';
         let thumb = $('pThumbUrl').value.trim() || base.thumbnail_url || '';
 
         const onProgressUpdate = (pct, msg) => {
@@ -1198,8 +1240,9 @@
       draft.showreel.title = e.target.value;
       post();
     };
-    $('showVideoUrl').oninput = e => {
-      const url = e.target.value.trim();
+    function handleShowVideoInput(val) {
+      const url = extractEmbedSrc(val);
+      $('showVideoUrl').value = url;
       draft.showreel = draft.showreel || {};
       draft.showreel.video_url = url;
       const ytId = getYouTubeId(url);
@@ -1209,7 +1252,9 @@
       }
       renderShow();
       post();
-    };
+    }
+    $('showVideoUrl').oninput = e => handleShowVideoInput(e.target.value);
+    $('showEmbedCode').oninput = e => handleShowVideoInput(e.target.value);
     $('showThumbUrl').oninput = e => {
       draft.showreel = draft.showreel || {};
       draft.showreel.thumbnail_url = e.target.value.trim();
@@ -1341,87 +1386,5 @@
 
     db.auth.getSession();
   </script>
-<style id="pravesh-admin-preview-css">
-    /* PRAVESH_ADMIN_STABLE_PREVIEW_V2 */
-    #preview { opacity: 1 !important; transform: translateZ(0); backface-visibility: hidden; }
-    </style>
-    <script>
-    (() => {
-      const STABLE_STYLE = `
-        *,*::before,*::after{
-          animation:none !important;
-          transition:none !important;
-          scroll-behavior:auto !important;
-        }
-        html{scroll-behavior:auto !important}
-      `;
-      let previewReady = false;
-      let timer = 0;
-      let lastPayload = '';
-
-      function stableFrame(){
-        const frame = document.getElementById('preview');
-        if (!frame) return;
-        try {
-          const doc = frame.contentDocument;
-          if (!doc) return;
-          let style = doc.getElementById('pravesh-admin-stable-style');
-          if (!style) {
-            style = doc.createElement('style');
-            style.id = 'pravesh-admin-stable-style';
-            (doc.head || doc.documentElement).appendChild(style);
-          }
-          style.textContent = STABLE_STYLE;
-        } catch (_) {}
-      }
-
-      function stablePost(){
-        const frame = document.getElementById('preview');
-        if (!frame || !frame.contentWindow) return;
-        try {
-          const state = typeof draft !== 'undefined' ? draft : {};
-          window.draft = state;
-          const payload = JSON.stringify(state);
-          if (previewReady && payload === lastPayload) return;
-          lastPayload = payload;
-          frame.contentWindow.postMessage({type:'PORTFOLIO_PREVIEW',settings:state}, location.origin);
-        } catch (_) {}
-        setTimeout(stableFrame, 0);
-      }
-
-      function hook(){
-        const frame = document.getElementById('preview');
-        if (!frame || frame.__praveshStableHooked) return;
-        frame.__praveshStableHooked = true;
-        frame.addEventListener('load', () => {
-          previewReady = true;
-          stableFrame();
-          setTimeout(stableFrame, 100);
-          setTimeout(stableFrame, 500);
-        });
-      }
-
-      const originalPost = window.post;
-      window.post = function(){
-        clearTimeout(timer);
-        hook();
-        timer = setTimeout(stablePost, 120);
-      };
-
-      const originalSetAttribute = Element.prototype.setAttribute;
-      Element.prototype.setAttribute = function(name, value){
-        if (this.id === 'preview' && name === 'src' && this.getAttribute('src') === value) return;
-        return originalSetAttribute.call(this, name, value);
-      };
-
-      const frame = document.getElementById('preview');
-      if (frame) {
-        hook();
-        const observer = new MutationObserver(() => hook());
-        observer.observe(frame.parentElement || document.body, {childList:true,subtree:true});
-        setTimeout(stableFrame, 300);
-      }
-    })();
-    </script>
 </body>
 </html>
