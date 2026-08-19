@@ -2,8 +2,6 @@ name: Stabilize admin preview
 
 on:
   push:
-    paths:
-      - '.admin-preview-fix-trigger'
   workflow_dispatch:
 
 permissions:
@@ -22,12 +20,12 @@ jobs:
           from pathlib import Path
           p = Path('admin.html')
           s = p.read_text(encoding='utf-8')
-          marker = '/* PRAVESH_ADMIN_STABLE_PREVIEW_V1 */'
+          marker = '/* PRAVESH_ADMIN_STABLE_PREVIEW_V2 */'
           if marker in s:
               print('Stable preview patch already present')
           else:
               patch = r'''<style id="pravesh-admin-preview-css">
-              /* PRAVESH_ADMIN_STABLE_PREVIEW_V1 */
+              /* PRAVESH_ADMIN_STABLE_PREVIEW_V2 */
               #preview { opacity: 1 !important; transform: translateZ(0); backface-visibility: hidden; }
               </style>
               <script>
@@ -38,11 +36,11 @@ jobs:
                     transition:none !important;
                     scroll-behavior:auto !important;
                   }
+                  html{scroll-behavior:auto !important}
                 `;
                 let previewReady = false;
-                let pending = false;
+                let timer = 0;
                 let lastPayload = '';
-                let stablePreview = true;
 
                 function stableFrame(){
                   const frame = document.getElementById('preview');
@@ -54,61 +52,58 @@ jobs:
                     if (!style) {
                       style = doc.createElement('style');
                       style.id = 'pravesh-admin-stable-style';
-                      doc.head.appendChild(style);
+                      (doc.head || doc.documentElement).appendChild(style);
                     }
-                    style.textContent = stablePreview ? STABLE_STYLE : '';
+                    style.textContent = STABLE_STYLE;
                   } catch (_) {}
                 }
 
-                function sendStable(){
-                  if (pending) return;
-                  pending = true;
-                  requestAnimationFrame(() => {
-                    pending = false;
-                    const frame = document.getElementById('preview');
-                    if (!frame || !frame.contentWindow) return;
-                    const payload = JSON.stringify(window.draft || {});
-                    if (payload === lastPayload && previewReady) return;
+                function stablePost(){
+                  const frame = document.getElementById('preview');
+                  if (!frame || !frame.contentWindow) return;
+                  try {
+                    const state = typeof draft !== 'undefined' ? draft : {};
+                    window.draft = state;
+                    const payload = JSON.stringify(state);
+                    if (previewReady && payload === lastPayload) return;
                     lastPayload = payload;
-                    try {
-                      frame.contentWindow.postMessage({type:'PORTFOLIO_PREVIEW',settings:window.draft}, location.origin);
-                    } catch (_) {}
-                    setTimeout(stableFrame, 0);
-                  });
+                    frame.contentWindow.postMessage({type:'PORTFOLIO_PREVIEW',settings:state}, location.origin);
+                  } catch (_) {}
+                  setTimeout(stableFrame, 0);
                 }
 
-                window.addEventListener('load', () => {
+                function hook(){
                   const frame = document.getElementById('preview');
-                  if (!frame) return;
+                  if (!frame || frame.__praveshStableHooked) return;
+                  frame.__praveshStableHooked = true;
                   frame.addEventListener('load', () => {
                     previewReady = true;
                     stableFrame();
-                    setTimeout(stableFrame, 50);
-                    setTimeout(stableFrame, 250);
+                    setTimeout(stableFrame, 100);
+                    setTimeout(stableFrame, 500);
                   });
-                });
+                }
 
                 const originalPost = window.post;
                 window.post = function(){
-                  window.draft = window.draft || (typeof draft !== 'undefined' ? draft : {});
-                  clearTimeout(window.__praveshPostTimer);
-                  window.__praveshPostTimer = setTimeout(sendStable, 90);
+                  clearTimeout(timer);
+                  hook();
+                  timer = setTimeout(stablePost, 120);
                 };
 
-                window.addEventListener('message', (e) => {
-                  if (e.data && e.data.type === 'PRAVESH_STABLE_PREVIEW') {
-                    stablePreview = e.data.enabled !== false;
-                    stableFrame();
-                  }
-                });
+                const originalSetAttribute = Element.prototype.setAttribute;
+                Element.prototype.setAttribute = function(name, value){
+                  if (this.id === 'preview' && name === 'src' && this.getAttribute('src') === value) return;
+                  return originalSetAttribute.call(this, name, value);
+                };
 
-                setTimeout(() => {
-                  const frame = document.getElementById('preview');
-                  if (frame && frame.contentDocument) {
-                    previewReady = true;
-                    stableFrame();
-                  }
-                }, 1000);
+                const frame = document.getElementById('preview');
+                if (frame) {
+                  hook();
+                  const observer = new MutationObserver(() => hook());
+                  observer.observe(frame.parentElement || document.body, {childList:true,subtree:true});
+                  setTimeout(stableFrame, 300);
+                }
               })();
               </script>'''
               if '</body>' not in s:
@@ -116,14 +111,11 @@ jobs:
               s = s.replace('</body>', patch + '\n</body>', 1)
               p.write_text(s, encoding='utf-8')
 
-      - name: Remove trigger
-        run: rm -f .admin-preview-fix-trigger
-
       - name: Commit fix
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add admin.html .admin-preview-fix-trigger
+          git add admin.html
           git diff --cached --quiet && exit 0
           git commit -m 'fix: stop admin preview flicker'
           git push
