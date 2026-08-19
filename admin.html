@@ -38,5 +38,90 @@ $('resetBtn').onclick=()=>{draft=structuredClone(published);sync()};$('previewBt
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');$('contentTab').classList.toggle('hide',t.dataset.tab!=='content');$('layoutTab').classList.toggle('hide',t.dataset.tab!=='layout')});document.querySelectorAll('.device').forEach(b=>b.onclick=()=>{if(!b.dataset.device)return;document.querySelectorAll('.device').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('preview').style.maxWidth=b.dataset.device==='mobile'?'430px':'none'});$('preview').onload=post;window.addEventListener('message',e=>{});
 $('magicBtn').onclick=async()=>{const email=$('email').value.trim();if(!email)return $('loginMsg').textContent='Enter your email.';const r=await db.auth.signInWithOtp({email,options:{emailRedirectTo:location.href}});$('loginMsg').textContent=r.error?r.error.message:'Login link sent. Check your email.'};db.auth.onAuthStateChange((event,session)=>{if(session){$('loginView').classList.add('hide');$('app').classList.remove('hide');load()}else{$('app').classList.add('hide');$('loginView').classList.remove('hide')}});db.auth.getSession();
 </script>
+<style id="pravesh-admin-preview-css">
+    /* PRAVESH_ADMIN_STABLE_PREVIEW_V1 */
+    #preview { opacity: 1 !important; transform: translateZ(0); backface-visibility: hidden; }
+    </style>
+    <script>
+    (() => {
+      const STABLE_STYLE = `
+        *,*::before,*::after{
+          animation:none !important;
+          transition:none !important;
+          scroll-behavior:auto !important;
+        }
+      `;
+      let previewReady = false;
+      let pending = false;
+      let lastPayload = '';
+      let stablePreview = true;
+
+      function stableFrame(){
+        const frame = document.getElementById('preview');
+        if (!frame) return;
+        try {
+          const doc = frame.contentDocument;
+          if (!doc) return;
+          let style = doc.getElementById('pravesh-admin-stable-style');
+          if (!style) {
+            style = doc.createElement('style');
+            style.id = 'pravesh-admin-stable-style';
+            doc.head.appendChild(style);
+          }
+          style.textContent = stablePreview ? STABLE_STYLE : '';
+        } catch (_) {}
+      }
+
+      function sendStable(){
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(() => {
+          pending = false;
+          const frame = document.getElementById('preview');
+          if (!frame || !frame.contentWindow) return;
+          const payload = JSON.stringify(window.draft || {});
+          if (payload === lastPayload && previewReady) return;
+          lastPayload = payload;
+          try {
+            frame.contentWindow.postMessage({type:'PORTFOLIO_PREVIEW',settings:window.draft}, location.origin);
+          } catch (_) {}
+          setTimeout(stableFrame, 0);
+        });
+      }
+
+      window.addEventListener('load', () => {
+        const frame = document.getElementById('preview');
+        if (!frame) return;
+        frame.addEventListener('load', () => {
+          previewReady = true;
+          stableFrame();
+          setTimeout(stableFrame, 50);
+          setTimeout(stableFrame, 250);
+        });
+      });
+
+      const originalPost = window.post;
+      window.post = function(){
+        window.draft = window.draft || (typeof draft !== 'undefined' ? draft : {});
+        clearTimeout(window.__praveshPostTimer);
+        window.__praveshPostTimer = setTimeout(sendStable, 90);
+      };
+
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'PRAVESH_STABLE_PREVIEW') {
+          stablePreview = e.data.enabled !== false;
+          stableFrame();
+        }
+      });
+
+      setTimeout(() => {
+        const frame = document.getElementById('preview');
+        if (frame && frame.contentDocument) {
+          previewReady = true;
+          stableFrame();
+        }
+      }, 1000);
+    })();
+    </script>
 </body>
 </html>
