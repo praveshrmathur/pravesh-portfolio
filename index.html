@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -9,8 +9,23 @@
   <meta name="description" content="Pravesh R Mathur — Video Editor & Media Production Specialist. Visual storytelling, dynamic motion design, and high-impact digital video production for brands and creators.">
   <meta name="keywords" content="Video Editor, Motion Graphics, Premiere Pro, After Effects, Short Form, Reels, CLAT, Education, D2C, Commercials, Video Production, AI Video">
   <meta name="author" content="Pravesh R Mathur">
-  <meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)">
+  
+  <script>
+    (function() {
+      try {
+        let theme = localStorage.getItem('pravesh_theme_v2');
+        if (!theme) {
+          theme = 'dark';
+          localStorage.setItem('pravesh_theme_v2', 'dark');
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch(e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   
   <!-- Open Graph & Social Sharing Metadata -->
   <meta property="og:site_name" content="Pravesh R Mathur Portfolio">
@@ -89,9 +104,14 @@
     }
     html {
       font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      overscroll-behavior-y: none;
+      -webkit-overflow-scrolling: touch;
     }
     html.lenis, html.lenis body {
       height: auto;
+      overscroll-behavior-y: none;
     }
     .lenis.lenis-smooth {
       scroll-behavior: auto !important;
@@ -108,13 +128,15 @@
     body {
       width: 100%;
       min-height: 100vh;
+      min-height: 100svh;
       overflow-x: hidden;
       background: var(--paper);
       color: var(--ink);
       font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       transition: background-color 0.3s ease, color 0.3s ease;
-      touch-action: pan-y;
+      touch-action: pan-y pinch-zoom;
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: none;
     }
 
     /* 120Hz Hardware GPU Compositing Layers */
@@ -633,22 +655,24 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.95;
+      opacity: 0.90;
+      mask-image: radial-gradient(ellipse 92% 80% at 50% 50%, black 60%, transparent 95%);
+      -webkit-mask-image: radial-gradient(ellipse 92% 80% at 50% 50%, black 60%, transparent 95%);
     }
     .hero-grid-lines {
       position: absolute;
       inset: 0;
       background-image: 
-        linear-gradient(to right, rgba(255, 85, 31, 0.10) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 85, 31, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
       background-size: clamp(36px, 5vw, 64px) clamp(36px, 5vw, 64px);
-      mask-image: radial-gradient(ellipse 90% 75% at 50% 50%, black 55%, transparent 95%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 50%, black 55%, transparent 95%);
+      mask-image: radial-gradient(ellipse 90% 75% at 50% 50%, black 50%, transparent 92%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 50%, black 50%, transparent 92%);
     }
     [data-theme="dark"] .hero-grid-lines {
       background-image: 
-        linear-gradient(to right, rgba(255, 85, 31, 0.18) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 85, 31, 0.09) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
     }
     .hero-floating-timecodes {
       position: absolute;
@@ -2550,6 +2574,7 @@
       transform: translateY(0);
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -2595,7 +2620,7 @@
         <a href="#section-contact" onclick="scrollToSection(event, 'contact')">CONTACT</a>
       </nav>
       <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
-        <span id="theme-icon">◐</span> <span id="theme-label">CINEMA</span>
+        <span id="theme-icon">☀️</span> <span id="theme-label">LIGHT</span>
       </button>
     </div>
   </header>
@@ -3065,22 +3090,25 @@
     return false;
   }
 
-  // 120Hz Momentum Inertia Smooth Scroll (Lenis Engine)
+  // 120Hz/240Hz Ultra-Smooth Momentum Inertia Smooth Scroll (iOS & Smartphone ProMotion Engine)
   (function initSmoothScroll() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     try {
       if (typeof Lenis !== 'undefined') {
-        const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         lenisInstance = new Lenis({
-          duration: 1.15,
+          duration: isTouch ? 1.05 : 1.25,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           orientation: 'vertical',
           gestureOrientation: 'vertical',
           smoothWheel: true,
-          wheelMultiplier: 0.95,
-          touchMultiplier: isCoarse ? 0 : 1.15,
-          syncTouch: false,
-          infinite: false
+          syncTouch: true,
+          syncTouchLerp: 0.085,
+          touchMultiplier: 1.15,
+          touchInertiaMultiplier: 32,
+          wheelMultiplier: 1.0,
+          infinite: false,
+          prevent: (node) => node.classList?.contains('tools-marquee-viewport') || node.classList?.contains('video-player-wrapper')
         });
 
         function raf(time) {
@@ -3256,16 +3284,16 @@
     setTimeout(resize, 300);
     setTimeout(resize, 1000);
 
-    // 8 Elegant, Vivid Kinetic Timeline Wave Streams Behind PORTFOLIO
+    // 8 Elegant Kinetic Timeline Wave Streams (Calibrated to 65-70% Opacity)
     const streamTracks = [
-      { yRatio: 0.18, speed: 0.010, freq: 0.0028, amp: 22, color: 'rgba(255, 85, 31, 0.28)', lineWidth: 1.4, dash: [8, 12] },
-      { yRatio: 0.28, speed: -0.013, freq: 0.0035, amp: 28, color: 'rgba(255, 85, 31, 0.38)', lineWidth: 1.6, dash: [] },
-      { yRatio: 0.38, speed: 0.015, freq: 0.0032, amp: 34, color: 'rgba(255, 85, 31, 0.48)', lineWidth: 1.8, dash: [10, 14] },
-      { yRatio: 0.48, speed: -0.016, freq: 0.0038, amp: 38, color: 'rgba(255, 85, 31, 0.54)', lineWidth: 2.0, dash: [] },
-      { yRatio: 0.58, speed: 0.014, freq: 0.0034, amp: 35, color: 'rgba(255, 85, 31, 0.48)', lineWidth: 1.8, dash: [12, 16] },
-      { yRatio: 0.68, speed: -0.012, freq: 0.0040, amp: 30, color: 'rgba(255, 85, 31, 0.40)', lineWidth: 1.6, dash: [] },
-      { yRatio: 0.78, speed: 0.011, freq: 0.0032, amp: 25, color: 'rgba(255, 85, 31, 0.32)', lineWidth: 1.4, dash: [8, 12] },
-      { yRatio: 0.88, speed: -0.009, freq: 0.0028, amp: 20, color: 'rgba(255, 85, 31, 0.25)', lineWidth: 1.2, dash: [] }
+      { yRatio: 0.18, speed: 0.010, freq: 0.0028, amp: 20, color: 'rgba(255, 85, 31, 0.60)', lineWidth: 1.3, dash: [8, 12] },
+      { yRatio: 0.28, speed: -0.012, freq: 0.0035, amp: 26, color: 'rgba(255, 85, 31, 0.66)', lineWidth: 1.5, dash: [] },
+      { yRatio: 0.38, speed: 0.014, freq: 0.0032, amp: 32, color: 'rgba(255, 85, 31, 0.70)', lineWidth: 1.6, dash: [10, 14] },
+      { yRatio: 0.48, speed: -0.015, freq: 0.0038, amp: 36, color: 'rgba(255, 85, 31, 0.70)', lineWidth: 1.8, dash: [] },
+      { yRatio: 0.58, speed: 0.013, freq: 0.0034, amp: 32, color: 'rgba(255, 85, 31, 0.68)', lineWidth: 1.6, dash: [12, 16] },
+      { yRatio: 0.68, speed: -0.011, freq: 0.0040, amp: 28, color: 'rgba(255, 85, 31, 0.65)', lineWidth: 1.5, dash: [] },
+      { yRatio: 0.78, speed: 0.010, freq: 0.0032, amp: 24, color: 'rgba(255, 85, 31, 0.62)', lineWidth: 1.3, dash: [8, 12] },
+      { yRatio: 0.88, speed: -0.008, freq: 0.0028, amp: 18, color: 'rgba(255, 85, 31, 0.58)', lineWidth: 1.2, dash: [] }
     ];
 
     let isCanvasVisible = true;
@@ -3327,10 +3355,10 @@
           const particleX = rawX < 0 ? travelDist + rawX : rawX;
           const particleY = baseY + Math.sin(particleX * line.freq + timeOffset) * line.amp + Math.cos(particleX * (line.freq * 0.5) - timeOffset * 0.65) * (line.amp * 0.35);
 
-          // Glowing particle halo
+          // Calibrated playhead node
           ctx.fillStyle = 'rgba(255, 85, 31, 0.75)';
           ctx.beginPath();
-          ctx.arc(particleX, particleY, 2.2, 0, Math.PI * 2);
+          ctx.arc(particleX, particleY, 1.8, 0, Math.PI * 2);
           ctx.fill();
         }
       });
@@ -3641,21 +3669,25 @@
     document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
   })();
 
-  // Theme Management
+  // Theme Management (Black Cinema Default with Optional Light Mode Switch)
   function initTheme() {
-    const savedTheme = localStorage.getItem('pravesh_theme') || 'light';
+    let savedTheme = localStorage.getItem('pravesh_theme_v2');
+    if (!savedTheme) {
+      savedTheme = 'dark';
+      localStorage.setItem('pravesh_theme_v2', 'dark');
+    }
     setTheme(savedTheme);
   }
 
   function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
     const next = current === 'dark' ? 'light' : 'dark';
     setTheme(next);
   }
 
   function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('pravesh_theme', theme);
+    localStorage.setItem('pravesh_theme_v2', theme);
     const icon = document.getElementById('theme-icon');
     const label = document.getElementById('theme-label');
     if (icon && label) {
