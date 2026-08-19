@@ -1121,7 +1121,7 @@
       font: 11px "DM Mono", monospace;
       letter-spacing: 0.08em;
     }
-    /* Automatic Infinite Right-to-Left Ticker / Slider for Tools */
+    /* Automatic Infinite Right-to-Left Ticker / Slider for Tools (Optimized for Mobile/iOS/iPad/MacBook) */
     .tools-marquee-viewport {
       width: 100%;
       overflow: hidden;
@@ -1129,12 +1129,18 @@
       padding: 10px 0;
       mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
       -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
     }
     .tools-marquee-track {
       display: flex;
       gap: 16px;
       width: max-content;
       will-change: transform;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
       animation: marqueeSlideLeft 36s linear infinite;
     }
     .tools-marquee-viewport:hover .tools-marquee-track,
@@ -2111,13 +2117,28 @@
         padding: 6px 12px;
         font-size: 10px;
       }
-      .glass-tools {
+      .tools-marquee-track {
         gap: 10px;
+        animation-duration: 28s;
       }
       .glass-tool {
-        min-height: 140px;
-        padding: 14px;
+        flex: 0 0 135px;
+        min-height: 125px;
+        padding: 11px 12px;
         border-radius: 16px;
+      }
+      .glass-tool .tool-logo {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+        border-radius: 14px;
+      }
+      .glass-tool strong {
+        font-size: 12px;
+        margin-top: 6px;
+      }
+      .glass-tool small {
+        font-size: 8.5px;
       }
       .footer-qr-card {
         padding: 12px 14px;
