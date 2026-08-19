@@ -269,6 +269,48 @@
       width: 100%;
     }
 
+    /* Glassmorphic WhatsApp Action Button */
+    .nav-whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(37, 211, 102, 0.4);
+      background: linear-gradient(145deg, rgba(37, 211, 102, 0.16) 0%, rgba(18, 140, 126, 0.08) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #128c7e;
+      font: 10px "DM Mono", monospace;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      box-shadow: 0 2px 10px rgba(37, 211, 102, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+    [data-theme="dark"] .nav-whatsapp-btn {
+      color: #25d366;
+      border-color: rgba(37, 211, 102, 0.35);
+      background: linear-gradient(145deg, rgba(37, 211, 102, 0.22) 0%, rgba(18, 140, 126, 0.12) 100%);
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+    .nav-whatsapp-btn svg {
+      width: 13px;
+      height: 13px;
+      fill: currentColor;
+      transition: transform 0.25s ease;
+    }
+    .nav-whatsapp-btn:hover {
+      transform: scale(1.05) translateY(-1px);
+      background: #25d366;
+      color: #fff;
+      border-color: #25d366;
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    }
+    .nav-whatsapp-btn:hover svg {
+      transform: rotate(10deg);
+    }
+
     /* Glassmorphic Theme Switcher Button */
     .theme-toggle {
       display: inline-flex;
@@ -467,11 +509,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(180deg, var(--ink) 25%, var(--orange) 85%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
+      color: var(--ink);
       user-select: none;
       perspective: 1000px;
       position: relative;
@@ -482,6 +520,11 @@
       display: inline-block;
       opacity: 1;
       transform-origin: center center;
+      background: linear-gradient(180deg, var(--ink) 25%, var(--orange) 85%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: var(--ink);
       transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease, opacity 0.45s ease;
       will-change: transform, filter;
     }
@@ -1025,29 +1068,128 @@
     .tool-logo {
       position: relative;
       z-index: 2;
-      width: clamp(54px, 6vw, 70px);
-      height: clamp(54px, 6vw, 70px);
-      border-radius: 18px;
+      width: clamp(56px, 6.2vw, 72px);
+      height: clamp(56px, 6.2vw, 72px);
+      border-radius: 20px;
       display: grid;
       place-items: center;
-      font-size: clamp(20px, 2.2vw, 27px);
-      font-weight: 700;
-      letter-spacing: -0.08em;
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 800;
+      letter-spacing: -0.06em;
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: inset 5px 5px 12px rgba(255, 255, 255, 0.3), inset -8px -8px 16px rgba(0, 0, 0, 0.35), 0 12px 24px rgba(0, 0, 0, 0.16);
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5), inset 0 -3px 8px rgba(0, 0, 0, 0.4), 0 12px 28px rgba(0, 0, 0, 0.14);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+      overflow: hidden;
     }
-    .tool-logo.premiere{background:linear-gradient(145deg,#4434d5 0%,#2525a8 48%,#14175e 100%);color:#ddd7ff}
-    .tool-logo.after{background:linear-gradient(145deg,#6d34b8,#32165e 55%,#160b2d);color:#d9b9ff}
-    .tool-logo.photoshop{background:linear-gradient(145deg,#1189bd,#075276 52%,#022b3d);color:#bcefff}
-    .tool-logo.capcut{background:linear-gradient(145deg,#555,#202020 55%,#080808);color:#fff}
-    .tool-logo.audition{background:linear-gradient(145deg,#9a35c4,#531879 55%,#22092e);color:#edc8ff}
-    .tool-logo.magnific{background:linear-gradient(145deg,#ff8c55,#c63d20 55%,#62170d);color:#fff1ea}
-    .tool-logo.higgs{background:linear-gradient(145deg,#ff7c45,#b52e17 55%,#571109);color:#ffe2d6}
-    .tool-logo.heygen{background:linear-gradient(145deg,#ff8c55,#b93b20 55%,#5b160c);color:#fff0e8}
-    .tool-logo.claude{background:linear-gradient(145deg,#f3b15d,#a45d20 55%,#4e240a);color:#fff1d9}
-    .tool-logo.runway{background:linear-gradient(145deg,#4c4c55,#1f2025 55%,#08090b);color:#fff}
-    .tool-logo.omni{background:linear-gradient(145deg,#7d6bff,#4030ad 55%,#17105b);color:#e8e3ff}
+    .tool-logo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.05) 45%, transparent 60%);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .tool-logo svg {
+      width: 52%;
+      height: 52%;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+    }
+    .glass-tool:hover .tool-logo {
+      transform: scale(1.08) translateY(-2px);
+    }
+    
+    /* Authentic 3D Brand Glass Palettes & Glows */
+    .tool-logo.premiere {
+      background: linear-gradient(145deg, #1f1b63 0%, #0d0c36 60%, #05041a 100%);
+      color: #df44ff;
+      border-color: rgba(223, 68, 255, 0.4);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(153, 51, 255, 0.28);
+    }
+    .tool-logo.premiere span {
+      background: linear-gradient(180deg, #f5a3ff 0%, #df44ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tool-logo.after {
+      background: linear-gradient(145deg, #2d1354 0%, #15082b 60%, #0a0314 100%);
+      color: #9955ff;
+      border-color: rgba(153, 85, 255, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(153, 85, 255, 0.32);
+    }
+    .tool-logo.after span {
+      background: linear-gradient(180deg, #d8b8ff 0%, #9955ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tool-logo.photoshop {
+      background: linear-gradient(145deg, #0f3460 0%, #081c36 60%, #030c17 100%);
+      color: #31a8ff;
+      border-color: rgba(49, 168, 255, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(49, 168, 255, 0.28);
+    }
+    .tool-logo.photoshop span {
+      background: linear-gradient(180deg, #aae2ff 0%, #31a8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tool-logo.capcut {
+      background: linear-gradient(145deg, #222222 0%, #121212 60%, #000000 100%);
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.35), 0 10px 25px rgba(0, 0, 0, 0.45);
+    }
+    .tool-logo.audition {
+      background: linear-gradient(145deg, #093b3b 0%, #041f1f 60%, #010a0a 100%);
+      color: #00e5c3;
+      border-color: rgba(0, 229, 195, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(0, 229, 195, 0.28);
+    }
+    .tool-logo.audition span {
+      background: linear-gradient(180deg, #99ffef 0%, #00e5c3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tool-logo.magnific {
+      background: linear-gradient(145deg, #421908 0%, #240c03 60%, #0d0401 100%);
+      color: #ff7733;
+      border-color: rgba(255, 119, 51, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(255, 85, 31, 0.32);
+    }
+    .tool-logo.higgs {
+      background: linear-gradient(145deg, #4a1d00 0%, #260f00 60%, #100600 100%);
+      color: #ff9933;
+      border-color: rgba(255, 153, 51, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(255, 120, 30, 0.32);
+    }
+    .tool-logo.heygen {
+      background: linear-gradient(145deg, #3d1054 0%, #1e052c 60%, #0c0212 100%);
+      color: #b844ff;
+      border-color: rgba(184, 68, 255, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(184, 68, 255, 0.32);
+    }
+    .tool-logo.claude {
+      background: linear-gradient(145deg, #452414 0%, #261208 60%, #120703 100%);
+      color: #d97757;
+      border-color: rgba(217, 119, 87, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(217, 119, 87, 0.32);
+    }
+    .tool-logo.runway {
+      background: linear-gradient(145deg, #2b2c33 0%, #14151a 60%, #050608 100%);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.35), 0 10px 25px rgba(0, 0, 0, 0.45);
+    }
+    .tool-logo.omni {
+      background: linear-gradient(145deg, #1e265c 0%, #0d1233 60%, #040614 100%);
+      color: #637aff;
+      border-color: rgba(99, 122, 255, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 10px 25px rgba(99, 122, 255, 0.32);
+    }
     .glass-tool strong {
       position: relative;
       z-index: 2;
@@ -1123,48 +1265,244 @@
       letter-spacing: -0.07em;
       margin: 0;
     }
+    /* Improvised 3D Frosted Glass Contact Hub */
     .contact-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+    @media (max-width: 640px) {
+      .contact-links {
+        grid-template-columns: 1fr;
+      }
+    }
+    .contact-card {
+      position: relative;
+      padding: clamp(18px, 2.5vw, 24px);
+      border-radius: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
       display: flex;
       flex-direction: column;
-      gap: clamp(14px, 2.5vh, 22px);
+      justify-content: space-between;
+      min-height: 135px;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.25s ease;
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
     }
-    .contact-link-item {
-      font-size: clamp(20px, 3vw, 42px);
-      letter-spacing: -0.04em;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 12px;
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--orange);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08), 0 0 24px var(--orange-glow);
+    }
+    .contact-card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
-    .contact-link-item:hover {
-      color: var(--orange);
-      border-color: var(--orange);
-      transform: translateX(4px);
+    .contact-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 8px 20px rgba(0, 0, 0, 0.12);
     }
-    .contact-copy-tag {
-      font: 10px "DM Mono", monospace;
-      padding: 4px 8px;
-      border-radius: 12px;
-      background: var(--grey);
+    .contact-card-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+    .contact-card-icon.whatsapp { background: linear-gradient(145deg, #25d366, #128c7e); }
+    .contact-card-icon.email { background: linear-gradient(145deg, #ff551f, #c6380c); }
+    .contact-card-icon.instagram { background: linear-gradient(145deg, #f58529, #dd2a7b 50%, #8134af 100%); }
+    .contact-card-icon.linkedin { background: linear-gradient(145deg, #0077b5, #004182); }
+    .contact-card-arrow {
+      font-size: 16px;
       color: var(--muted);
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+    .contact-card:hover .contact-card-arrow {
+      transform: translate(2px, -2px);
+      color: var(--orange);
+    }
+    .contact-card-body strong {
+      display: block;
+      font-size: clamp(16px, 1.6vw, 20px);
+      letter-spacing: -0.03em;
+      margin-top: 14px;
+    }
+    .contact-card-body span {
+      display: block;
+      font: 10.5px "DM Mono", monospace;
+      color: var(--muted);
+      margin-top: 4px;
       letter-spacing: 0.04em;
     }
 
-    /* Footer */
-    footer {
+    /* Modern Frosted Glass Footer & WhatsApp QR Component */
+    .footer-modern {
+      background: #0d0d0d;
+      color: #fff;
+      padding: clamp(36px, 5vh, 60px) 4vw max(24px, env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+    .footer-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 4vw;
-      background: #111;
-      color: #bbb;
+      flex-wrap: wrap;
+      gap: 32px;
+      padding-bottom: clamp(28px, 4vh, 40px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .footer-brand-block {
+      max-width: 520px;
+    }
+    .footer-brand {
+      font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+    .footer-brand span {
+      color: var(--orange);
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: #888;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+    .footer-meta-badges {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-badge {
+      font: 9.5px "DM Mono", monospace;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #aaa;
+      letter-spacing: 0.06em;
+    }
+    .footer-badge:first-child {
+      color: #25d366;
+      border-color: rgba(37, 211, 102, 0.3);
+      background: rgba(37, 211, 102, 0.08);
+    }
+    .footer-qr-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .footer-qr-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: #25d366;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 25px rgba(37, 211, 102, 0.3);
+    }
+    .qr-image-wrap {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 14px;
+      background: #fff;
+      padding: 6px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+    .qr-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .qr-scan-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #25d366;
+      box-shadow: 0 0 8px #25d366;
+      animation: scanAnim 2.2s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes scanAnim {
+      0% { top: 6px; opacity: 0.4; }
+      100% { top: 82px; opacity: 1; }
+    }
+    .qr-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .qr-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font: 10px "DM Mono", monospace;
+      color: #25d366;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .qr-title svg {
+      width: 13px;
+      height: 13px;
+      fill: currentColor;
+    }
+    .qr-info strong {
+      font-size: 14px;
+      letter-spacing: -0.02em;
+    }
+    .qr-info small {
+      font: 9.5px "DM Mono", monospace;
+      color: #888;
+      letter-spacing: 0.04em;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: clamp(20px, 3vh, 28px);
+      color: #666;
       font: 10px "DM Mono", monospace;
       letter-spacing: 0.05em;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
     /* In-Page Cinematic Video Modal / Lightbox */
@@ -1483,6 +1821,10 @@
         <a href="#tools">TOOLS</a>
         <a href="#contact">CONTACT</a>
       </nav>
+      <a id="nav-whatsapp-btn" class="nav-whatsapp-btn magnetic-btn" href="https://wa.link/9bb97w" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.12c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 01-1.25-4.35c0-4.52 3.68-8.2 8.24-8.2 2.2 0 4.26.86 5.82 2.42a8.18 8.18 0 012.41 5.79c0 4.52-3.69 8.2-8.23 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.06 0 1.21.89 2.39 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.3z"/></svg>
+        <span>WHATSAPP</span>
+      </a>
       <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme">
         <span id="theme-icon">◐</span> <span id="theme-label">CINEMA</span>
       </button>
@@ -1664,7 +2006,7 @@
           <div class="glass-tool"><div class="tool-logo premiere"><span>Pr</span></div><strong>PREMIERE PRO</strong><small>EDITING</small></div>
           <div class="glass-tool"><div class="tool-logo after"><span>Ae</span></div><strong>AFTER EFFECTS</strong><small>MOTION</small></div>
           <div class="glass-tool"><div class="tool-logo photoshop"><span>Ps</span></div><strong>PHOTOSHOP</strong><small>DESIGN</small></div>
-          <div class="glass-tool"><div class="tool-logo capcut"><span>CC</span></div><strong>CAPCUT</strong><small>SHORT FORM</small></div>
+          <div class="glass-tool"><div class="tool-logo capcut"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.5h10.5L9.5 11 14.5 16.5H4L9 11 4 5.5zm16 0h-4l-5 5.5 5 5.5h4l-5-5.5 5-5.5z"/></svg></div><strong>CAPCUT</strong><small>SHORT FORM</small></div>
           <div class="glass-tool"><div class="tool-logo audition"><span>Au</span></div><strong>AUDITION</strong><small>AUDIO</small></div>
         </div>
       </div>
@@ -1672,12 +2014,12 @@
       <div class="tool-group reveal-item">
         <div class="tool-label">AI & GENERATIVE WORKFLOWS</div>
         <div class="glass-tools">
-          <div class="glass-tool"><div class="tool-logo magnific"><span>M</span></div><strong>MAGNIFIC</strong><small>ENHANCE</small></div>
-          <div class="glass-tool"><div class="tool-logo higgs"><span>H</span></div><strong>HIGGSFIELD</strong><small>GENERATIVE</small></div>
-          <div class="glass-tool"><div class="tool-logo heygen"><span>HG</span></div><strong>HEYGEN</strong><small>AVATARS</small></div>
-          <div class="glass-tool"><div class="tool-logo claude"><span>C</span></div><strong>CLAUDE</strong><small>AI</small></div>
-          <div class="glass-tool"><div class="tool-logo runway"><span>R</span></div><strong>RUNWAY</strong><small>GEN VIDEO</small></div>
-          <div class="glass-tool"><div class="tool-logo omni"><span>O</span></div><strong>OMNI</strong><small>AI</small></div>
+          <div class="glass-tool"><div class="tool-logo magnific"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 8.5v7L12 22l10-6.5v-7L12 2zm0 3.3l6.5 4.2-6.5 4.2-6.5-4.2L12 5.3zm-7.5 5.5l6.5 4.2v6.2L4.5 17v-6.2zm15 0v6.2l-6.5 4.2v-6.2l6.5-4.2z"/></svg></div><strong>MAGNIFIC</strong><small>ENHANCE</small></div>
+          <div class="glass-tool"><div class="tool-logo higgs"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2zm0 4.5l-1.3 4.2-4.2 1.3 4.2 1.3 1.3 4.2 1.3-4.2 4.2-1.3-4.2-1.3L12 6.5z"/></svg></div><strong>HIGGSFIELD</strong><small>GENERATIVE</small></div>
+          <div class="glass-tool"><div class="tool-logo heygen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 00-9 9 9 9 0 0013.8 7.6l4.2 1.4-1.4-4.2A9 9 0 0012 3zm-2 6a2 2 0 110 4 2 2 0 010-4zm4 6.5c-1.5 0-3.5-.6-4.5-1.5.5-.8 1.8-1.5 3.5-1.5s3 .7 3.5 1.5c-1 .9-1.5 1.5-2.5 1.5z"/></svg></div><strong>HEYGEN</strong><small>AVATARS</small></div>
+          <div class="glass-tool"><div class="tool-logo claude"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.6 5.2 5.2-1.6-1.6 5.2L22 12l-4.8 1.2 1.6 5.2-5.2-1.6L12 22l-1.6-5.2-5.2 1.6 1.6-5.2L2 12l4.8-1.2-1.6-5.2 5.2 1.6L12 2z"/></svg></div><strong>CLAUDE</strong><small>AI</small></div>
+          <div class="glass-tool"><div class="tool-logo runway"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 4h8a5 5 0 014.3 7.6L20 20h-4.5l-2.4-7H8v7H5V4zm3 3v4h5a2 2 0 000-4H8z"/></svg></div><strong>RUNWAY</strong><small>GEN VIDEO</small></div>
+          <div class="glass-tool"><div class="tool-logo omni"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4a6 6 0 110 12 6 6 0 010-12zm0 3a3 3 0 100 6 3 3 0 000-6z"/></svg></div><strong>OMNI</strong><small>AI</small></div>
         </div>
       </div>
     </section>
@@ -1693,31 +2035,109 @@
     <section id="section-contact" class="contact section-pad">
       <div class="section-head">
         <span>05 / CONTACT</span>
-        <span>OPEN FOR COMMISSIONS</span>
+        <span>OPEN FOR COMMISSIONS & FREELANCE</span>
       </div>
       <div class="contact-grid">
-        <h2 class="reveal-item">LET'S<br>TALK<span>.</span></h2>
+        <div class="reveal-item">
+          <h2 id="contact-heading-text">LET'S<br>TALK<span>.</span></h2>
+          <p style="color: var(--muted); margin-top: 14px; font-size: clamp(14px, 1.2vw, 16px); line-height: 1.6; max-width: 440px;">
+            Have a project, commercial, reel series, or creative collaboration in mind? Reach out directly via WhatsApp, Email, or Socials.
+          </p>
+        </div>
         <div class="contact-links reveal-item">
-          <div class="contact-link-item magnetic-btn" onclick="copyEmail(currentContactEmail)">
-            <span>EMAIL ME</span>
-            <span class="contact-copy-tag">CLICK TO COPY 📋</span>
-          </div>
-          <a id="contact-instagram" class="contact-link-item" href="https://instagram.com" target="_blank" rel="noopener">
-            <span>INSTAGRAM</span>
-            <span>↗</span>
+          <!-- WhatsApp Card -->
+          <a id="contact-whatsapp" class="contact-card magnetic-btn" href="https://wa.link/9bb97w" target="_blank" rel="noopener">
+            <div class="contact-card-header">
+              <div class="contact-card-icon whatsapp">
+                <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.12c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 01-1.25-4.35c0-4.52 3.68-8.2 8.24-8.2 2.2 0 4.26.86 5.82 2.42a8.18 8.18 0 012.41 5.79c0 4.52-3.69 8.2-8.23 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.06 0 1.21.89 2.39 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.3z"/></svg>
+              </div>
+              <span class="contact-card-arrow">↗</span>
+            </div>
+            <div class="contact-card-body">
+              <strong>WHATSAPP</strong>
+              <span id="contact-whatsapp-text">QUICK DIRECT CHAT</span>
+            </div>
           </a>
-          <a id="contact-linkedin" class="contact-link-item" href="https://linkedin.com" target="_blank" rel="noopener">
-            <span>LINKEDIN</span>
-            <span>↗</span>
+
+          <!-- Email Copy Card -->
+          <div class="contact-card magnetic-btn" onclick="copyEmail(currentContactEmail)">
+            <div class="contact-card-header">
+              <div class="contact-card-icon email">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              </div>
+              <span class="contact-card-arrow">📋</span>
+            </div>
+            <div class="contact-card-body">
+              <strong>EMAIL</strong>
+              <span id="contact-email-text">CLICK TO COPY</span>
+            </div>
+          </div>
+
+          <!-- Instagram Card -->
+          <a id="contact-instagram" class="contact-card magnetic-btn" href="https://instagram.com" target="_blank" rel="noopener">
+            <div class="contact-card-header">
+              <div class="contact-card-icon instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </div>
+              <span class="contact-card-arrow">↗</span>
+            </div>
+            <div class="contact-card-body">
+              <strong>INSTAGRAM</strong>
+              <span>@PRAVESHRMATHUR</span>
+            </div>
+          </a>
+
+          <!-- LinkedIn Card -->
+          <a id="contact-linkedin" class="contact-card magnetic-btn" href="https://linkedin.com" target="_blank" rel="noopener">
+            <div class="contact-card-header">
+              <div class="contact-card-icon linkedin">
+                <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              </div>
+              <span class="contact-card-arrow">↗</span>
+            </div>
+            <div class="contact-card-body">
+              <strong>LINKEDIN</strong>
+              <span>CONNECT PROFESSIONAL</span>
+            </div>
           </a>
         </div>
       </div>
     </section>
   </div>
 
-  <footer>
-    <span>© 2026 PRAVESH R MATHUR</span>
-    <span>VIDEO EDITOR & MEDIA PRODUCTION SPECIALIST</span>
+  <!-- Modern Frosted Glass Footer with WhatsApp QR Card -->
+  <footer class="footer-modern">
+    <div class="footer-top">
+      <div class="footer-brand-block">
+        <span class="footer-brand">PRAVESH R MATHUR<span>.</span></span>
+        <p class="footer-tagline">Video Editor & Media Production Specialist — Available worldwide for commercials, short-form reels, and creator platforms.</p>
+        <div class="footer-meta-badges">
+          <span class="footer-badge">AVAILABLE FOR WORK</span>
+          <span class="footer-badge">UTC+05:30 (IST)</span>
+        </div>
+      </div>
+
+      <!-- Modern Frosted Glass WhatsApp QR Code Card -->
+      <a class="footer-qr-card magnetic-btn" href="https://wa.link/9bb97w" target="_blank" rel="noopener" aria-label="Scan or Click to Chat on WhatsApp">
+        <div class="qr-image-wrap">
+          <img src="whatsapp-qr.png" alt="WhatsApp QR Code - Pravesh R Mathur" class="qr-image" width="100" height="100" loading="lazy">
+          <div class="qr-scan-bar"></div>
+        </div>
+        <div class="qr-info">
+          <div class="qr-title">
+            <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm0 18.12c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 01-1.25-4.35c0-4.52 3.68-8.2 8.24-8.2 2.2 0 4.26.86 5.82 2.42a8.18 8.18 0 012.41 5.79c0 4.52-3.69 8.2-8.23 8.2zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.06 0 1.21.89 2.39 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.23-.17-.48-.3z"/></svg>
+            <span>WHATSAPP CONNECT</span>
+          </div>
+          <strong>SCAN OR TAP TO CHAT</strong>
+          <small>DIRECT LINK: wa.link/9bb97w ↗</small>
+        </div>
+      </a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 PRAVESH R MATHUR. ALL RIGHTS RESERVED.</span>
+      <span>DESIGNED FOR VIDEO & MOTION PERFORMANCE</span>
+    </div>
   </footer>
 
   <!-- In-Page Video Modal / Lightbox -->
@@ -2504,8 +2924,22 @@
     if (s.about_lead !== undefined) { const el = document.getElementById('about-lead-text'); if(el && el.textContent !== s.about_lead) el.textContent = s.about_lead; }
     if (s.about_copy !== undefined) { const el = document.getElementById('about-desc-text'); if(el && el.textContent !== s.about_copy) el.textContent = s.about_copy; }
     if (s.cta_label !== undefined) { const el = document.getElementById('cta-label-text'); if(el && el.textContent !== s.cta_label) el.textContent = s.cta_label; }
-    if (s.cta_heading !== undefined) { const el = document.getElementById('cta-heading-text'); const formatted = s.cta_heading.replace(/\n/g, '<br>') + '<span>.</span>'; if(el && el.innerHTML !== formatted) el.innerHTML = formatted; }
-    if (s.email !== undefined) { currentContactEmail = s.email; }
+    if (s.email !== undefined) {
+      currentContactEmail = s.email;
+      const el = document.getElementById('contact-email-text');
+      if (el && s.email) el.textContent = s.email;
+    }
+    if (s.whatsapp_url !== undefined || s.whatsapp_number !== undefined) {
+      const waLink = s.whatsapp_url || (s.whatsapp_number ? `https://wa.me/${s.whatsapp_number.replace(/\D/g,'')}` : '');
+      if (waLink) {
+        const navWa = document.getElementById('nav-whatsapp-btn');
+        if (navWa) navWa.href = waLink;
+        const contactWa = document.getElementById('contact-whatsapp');
+        if (contactWa) contactWa.href = waLink;
+        const contactWaText = document.getElementById('contact-whatsapp-text');
+        if (contactWaText && s.whatsapp_number) contactWaText.textContent = s.whatsapp_number;
+      }
+    }
     if (s.instagram_url !== undefined) { const el = document.getElementById('contact-instagram'); if(el && el.href !== s.instagram_url) el.href = s.instagram_url; }
     if (s.linkedin_url !== undefined) { const el = document.getElementById('contact-linkedin'); if(el && el.href !== s.linkedin_url) el.href = s.linkedin_url; }
 
