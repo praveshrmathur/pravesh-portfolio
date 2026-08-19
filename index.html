@@ -1228,8 +1228,33 @@
         padding: 14px 5vw;
       }
       .hero {
-        padding: 20px 5vw 24px;
-        min-height: calc(100svh - 52px);
+        padding: clamp(24px, 4vh, 36px) 5vw clamp(24px, 4.5vh, 36px);
+        min-height: clamp(500px, 78svh, 640px);
+        min-height: clamp(500px, 78vh, 640px);
+      }
+      .hero-word-wrap {
+        padding: 2.5vh 0;
+      }
+      .hero-word {
+        font-size: clamp(56px, 18.5vw, 105px);
+        letter-spacing: -0.065em;
+        line-height: 0.82;
+      }
+      .hero-typo-line {
+        width: clamp(70px, 22vw, 120px);
+        margin-top: 14px;
+      }
+      .hero-top {
+        font-size: 11px;
+      }
+      .hero-title {
+        font-size: clamp(18px, 4.8vw, 28px);
+        line-height: 1.1;
+      }
+      .hero-arrow {
+        width: 68px;
+        height: 68px;
+        font-size: 9px;
       }
       .section-pad {
         padding: 48px 5vw;
@@ -1245,35 +1270,6 @@
       .glass-tools {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-      }
-      .hero-word {
-        font-size: clamp(48px, 16vw, 120px);
-        transform: translateY(-14%);
-      }
-      .hero-portrait-stage {
-        top: 54%;
-        left: 50%;
-        transform: translate(-50%, -46%);
-      }
-      .hero-portrait {
-        height: clamp(320px, 52vh, 460px);
-        max-width: 92vw;
-      }
-      .hero-identity-block {
-        bottom: 8px;
-        left: 4vw;
-      }
-      .hero-identity-name {
-        font-size: 12.5px;
-      }
-      .hero-identity-role {
-        font-size: 8.5px;
-      }
-      .hero-identity-line.is-visible {
-        width: 70px;
-      }
-      .custom-cursor-dot, .custom-cursor-ring {
-        display: none !important;
       }
     }
     @media (max-width: 540px) {
