@@ -1113,13 +1113,13 @@
       box-shadow: 0 6px 20px rgba(255, 85, 31, 0.35);
     }
 
-    /* Dynamic Grid: 1x 16:9 Banner + 4x 9:16 Reels Rhythm */
+    /* Dynamic Grid: 1x 16:9 Banner + 3x 9:16 Reels Rhythm (Perfect Symmetric Alignment) */
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      max-width: 1200px;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 860px;
       margin: 0 auto;
-      gap: clamp(16px, 2vw, 28px);
+      gap: 16px;
       position: relative;
       z-index: 2;
     }
@@ -1135,8 +1135,6 @@
     /* 16:9 Landscape Card */
     .project.project-landscape {
       grid-column: 1 / -1;
-      max-width: 860px;
-      margin: 0 auto;
       width: 100%;
     }
     .project.project-landscape .project-media {
