@@ -1113,13 +1113,13 @@
       box-shadow: 0 6px 20px rgba(255, 85, 31, 0.35);
     }
 
-    /* Dynamic Grid: 1x 16:9 Banner + 3x 9:16 Reels Rhythm */
+    /* Dynamic Grid: 1x 16:9 Banner + 4x 9:16 Reels Rhythm */
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      max-width: 1040px;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1200px;
       margin: 0 auto;
-      gap: clamp(20px, 2.5vw, 32px);
+      gap: clamp(16px, 2vw, 28px);
       position: relative;
       z-index: 2;
     }
@@ -1140,19 +1140,19 @@
       width: 100%;
     }
     .project.project-landscape .project-media {
-      aspect-ratio: 16/9;
-      max-height: 480px;
+      aspect-ratio: 16 / 9;
       width: 100%;
+      height: auto;
     }
 
-    /* 9:16 Portrait Card */
+    /* 9:16 Portrait Card (True Vertical Reel Ratio) */
     .project.project-portrait {
       grid-column: span 1;
     }
     .project.project-portrait .project-media {
-      aspect-ratio: 9/16;
+      aspect-ratio: 9 / 16;
       width: 100%;
-      max-height: 490px;
+      height: auto;
     }
 
     .project-media {
@@ -2490,9 +2490,9 @@
         grid-column: span 1;
       }
       .project.project-portrait .project-media {
-        aspect-ratio: 9/16;
-        max-height: 280px;
+        aspect-ratio: 9 / 16;
         width: 100%;
+        height: auto;
       }
       .project-overlay-title {
         font-size: 11px;
@@ -2740,7 +2740,7 @@
       <div class="bg-watermark" style="top: 20px;">WORKS</div>
       <div class="section-head">
         <span>02 / SELECTED WORK</span>
-        <span>16:9 BANNER • 3X 9:16 REELS RHYTHM</span>
+        <span>16:9 BANNER • 4X 9:16 REELS RHYTHM</span>
       </div>
       
       <!-- Category Filter Tabs -->
