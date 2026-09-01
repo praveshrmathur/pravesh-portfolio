@@ -106,12 +106,11 @@
       font-size: 16px;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
-      overscroll-behavior-y: none;
       -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
     }
     html.lenis, html.lenis body {
       height: auto;
-      overscroll-behavior-y: none;
     }
     .lenis.lenis-smooth {
       scroll-behavior: auto !important;
@@ -134,9 +133,7 @@
       color: var(--ink);
       font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       transition: background-color 0.3s ease, color 0.3s ease;
-      touch-action: pan-y pinch-zoom;
       -webkit-overflow-scrolling: touch;
-      overscroll-behavior-y: none;
     }
 
     /* 120Hz Hardware GPU Compositing Layers */
@@ -1021,7 +1018,8 @@
     .media-placeholder {
       aspect-ratio: 16/9;
       width: 100%;
-      max-width: 960px;
+      max-width: 860px;
+      max-height: 480px;
       margin: 0 auto;
       background: #111;
       border-radius: 20px;
@@ -1118,8 +1116,10 @@
     /* Dynamic Grid: 1x 16:9 Banner + 3x 9:16 Reels Rhythm */
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(24px, 3.5vw, 42px) clamp(16px, 2vw, 28px);
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      max-width: 1040px;
+      margin: 0 auto;
+      gap: clamp(20px, 2.5vw, 32px);
       position: relative;
       z-index: 2;
     }
@@ -1135,10 +1135,13 @@
     /* 16:9 Landscape Card */
     .project.project-landscape {
       grid-column: 1 / -1;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
     }
     .project.project-landscape .project-media {
       aspect-ratio: 16/9;
-      max-height: 580px;
+      max-height: 480px;
       width: 100%;
     }
 
@@ -1149,6 +1152,7 @@
     .project.project-portrait .project-media {
       aspect-ratio: 9/16;
       width: 100%;
+      max-height: 490px;
     }
 
     .project-media {
@@ -2476,16 +2480,30 @@
     }
     @media (max-width: 540px) {
       .work-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
       }
-      .project.project-landscape, .project.project-portrait {
-        grid-column: auto;
+      .project.project-landscape {
+        grid-column: 1 / -1;
+      }
+      .project.project-portrait {
+        grid-column: span 1;
       }
       .project.project-portrait .project-media {
         aspect-ratio: 9/16;
-        max-width: 420px;
-        margin: 0 auto;
+        max-height: 280px;
+        width: 100%;
+      }
+      .project-overlay-title {
+        font-size: 11px;
+      }
+      .project-ratio-badge {
+        font-size: 8px;
+      }
+      .project-play-badge {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
       }
     }
     @media (max-width: 480px) {
@@ -3007,14 +3025,29 @@
   let lenisInstance = null;
 
   // Cinematic Match Preloader Engine (0% -> 100% Seamless Curtain Reveal)
+  // Match Preloader with Instant Fail-Safe for iPhone & Mobile Browsers
   (function initMatchPreloader() {
     const preloader = document.getElementById('site-preloader');
     const counter = document.getElementById('preloader-counter');
     const status = document.getElementById('preloader-status');
     const progress = document.getElementById('preloader-progress');
-    if (!preloader || !counter || !progress) return;
+    if (!preloader) return;
+
+    function hidePreloader() {
+      if (!preloader || preloader.style.display === 'none') return;
+      if (counter) counter.textContent = '100%';
+      if (progress) progress.style.width = '100%';
+      preloader.classList.add('loaded');
+      setTimeout(() => {
+        preloader.style.display = 'none';
+      }, 600);
+    }
+
+    // Fail-Safe: guarantees the preloader is always removed on iOS/mobile within 1.1s
+    const failSafeTimer = setTimeout(hidePreloader, 1100);
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      clearTimeout(failSafeTimer);
       preloader.style.display = 'none';
       return;
     }
@@ -3027,18 +3060,17 @@
     ];
 
     let currentPercent = 0;
-    const targetDuration = 1000; // 1 second crisp cinematic loading sequence
+    const targetDuration = 850;
     const startTime = performance.now();
 
     function updatePreloader(now) {
       const elapsed = now - startTime;
       const progressRatio = Math.min(elapsed / targetDuration, 1);
-      // Clean cinematic easing curve
       const easeVal = 1 - Math.pow(1 - progressRatio, 2.2);
       currentPercent = Math.min(Math.floor(easeVal * 100), 100);
 
-      counter.textContent = String(currentPercent).padStart(2, '0') + '%';
-      progress.style.width = currentPercent + '%';
+      if (counter) counter.textContent = String(currentPercent).padStart(2, '0') + '%';
+      if (progress) progress.style.width = currentPercent + '%';
 
       if (status) {
         if (currentPercent < 28) {
@@ -3055,14 +3087,8 @@
       if (progressRatio < 1) {
         requestAnimationFrame(updatePreloader);
       } else {
-        counter.textContent = '100%';
-        progress.style.width = '100%';
-        setTimeout(() => {
-          preloader.classList.add('loaded');
-          setTimeout(() => {
-            preloader.style.display = 'none';
-          }, 900);
-        }, 160);
+        clearTimeout(failSafeTimer);
+        hidePreloader();
       }
     }
 
@@ -3090,22 +3116,20 @@
     return false;
   }
 
-  // 120Hz/240Hz Ultra-Smooth Momentum Inertia Smooth Scroll (iOS & Smartphone ProMotion Engine)
+  // 120Hz/240Hz Ultra-Smooth Momentum Engine (Desktop Wheel + iPhone Native 120Hz ProMotion)
   (function initSmoothScroll() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     try {
       if (typeof Lenis !== 'undefined') {
         const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         lenisInstance = new Lenis({
-          duration: isTouch ? 1.05 : 1.25,
+          duration: 1.15,
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           orientation: 'vertical',
           gestureOrientation: 'vertical',
           smoothWheel: true,
-          syncTouch: true,
-          syncTouchLerp: 0.085,
-          touchMultiplier: 1.15,
-          touchInertiaMultiplier: 32,
+          syncTouch: false,
+          touchMultiplier: 1.0,
           wheelMultiplier: 1.0,
           infinite: false,
           prevent: (node) => node.classList?.contains('tools-marquee-viewport') || node.classList?.contains('video-player-wrapper')
