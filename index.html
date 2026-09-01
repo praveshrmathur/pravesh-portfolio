@@ -1113,11 +1113,11 @@
       box-shadow: 0 6px 20px rgba(255, 85, 31, 0.35);
     }
 
-    /* Dynamic Grid: 1x 16:9 Banner + 3x 9:16 Reels Rhythm (Perfect Symmetric Alignment) */
+    /* Dynamic Grid: 1x 16:9 Banner + 4x 9:16 Reels Rhythm */
     .work-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      max-width: 860px;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1080px;
       margin: 0 auto;
       gap: 16px;
       position: relative;
@@ -1136,6 +1136,8 @@
     .project.project-landscape {
       grid-column: 1 / -1;
       width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
     }
     .project.project-landscape .project-media {
       aspect-ratio: 16 / 9;
@@ -3985,12 +3987,12 @@
     });
   }
 
-  // Determine Aspect Ratio based on: 1x 16:9 followed by 3x 9:16 repeating
+  // Determine Aspect Ratio based on: 1x 16:9 followed by 4x 9:16 repeating
   function isLandscapeProject(i, item) {
     if (item && item.aspect_ratio) {
       return item.aspect_ratio === '16:9' || item.aspect_ratio === 'landscape';
     }
-    return (i % 4 === 0);
+    return (i % 5 === 0);
   }
 
   function esc(value){
@@ -4097,16 +4099,18 @@
     }).join('');
   }
 
-  // Default fallback projects (2 full cycles of 1x 16:9 + 3x 9:16)
+  // Default fallback projects: 1x 16:9 Landscape + 4x 9:16 Reels Rhythm (Sets of 2 on mobile, 4 on desktop)
   const fallbackProjects = [
     {id:1, title:'CLAT National Masterclass • Launch Film', category:'Educational / Commercial', video_url:'', aspect_ratio:'16:9', sort_order:1},
     {id:2, title:'Viral D2C Jewellery Reel', category:'Reels / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:2},
     {id:3, title:'Fast-Paced Motion Hook', category:'Reels / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:3},
     {id:4, title:'Judiciary Exam Shorts', category:'Educational / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:4},
-    {id:5, title:'Basttl Media Brand Story Film', category:'Commercials / Ads', video_url:'', aspect_ratio:'16:9', sort_order:5},
-    {id:6, title:'AI Generative Sequence', category:'Motion & AI', video_url:'', aspect_ratio:'9:16', sort_order:6},
-    {id:7, title:'Festive Collection Showcase', category:'Reels / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:7},
-    {id:8, title:'IPM Entrance Strategy Reel', category:'Educational / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:8}
+    {id:5, title:'Festive Collection Showcase', category:'Reels / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:5},
+    {id:6, title:'Basttl Media Brand Story Film', category:'Commercials / Ads', video_url:'', aspect_ratio:'16:9', sort_order:6},
+    {id:7, title:'AI Generative Sequence', category:'Motion & AI', video_url:'', aspect_ratio:'9:16', sort_order:7},
+    {id:8, title:'IPM Entrance Strategy Reel', category:'Educational / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:8},
+    {id:9, title:'D2C Product Launch Reel', category:'Reels / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:9},
+    {id:10, title:'Cinematic Visual Teaser', category:'Reels / Short Form', video_url:'', aspect_ratio:'9:16', sort_order:10}
   ];
 
   // Smart Zero-Flicker Settings Applicator
